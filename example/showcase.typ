@@ -92,7 +92,7 @@
 #v(0.3em)
 #stripe(height: 6pt)
 
-== Plots in the same colors
+== Plots with cetz
 
 #align(center, cetz.canvas(length: 1cm, {
   import cetz.draw: *
@@ -117,6 +117,19 @@
 #align(center, text(
   size: 0.8em,
 )[Drawn with cetz, using `cycle-color(0)`, `(1)` and `(2)` like a matplotlib figure.])
+
+== Plots from matplotlib
+
+#slide(composer: (1.6fr, 1fr))[
+  #image("plots/resonance.svg", width: 100%)
+][
+  #set text(size: 0.85em)
+  - `theme/cycler.mplstyle` matches the slides: colors, Roboto, Fira Math
+  - Save as SVG, then `#image("plots/resonance.svg")`
+  - `just plots` reruns every `plots/*.py` with `uv`
+]
+
+#speaker-note[The SVG keeps text as outlines and a transparent background, so it looks the same on any slide.]
 
 == Tables
 

@@ -32,6 +32,7 @@ template fixes without touching your slides.
 | `just preview`      | Render every slide to `build/preview-*.png`             |
 | `just build-pptx`   | Optional PPTX export, one image per slide, via `uvx`    |
 | `just site`         | PDF plus an `index.html`, ready for GitHub Pages        |
+| `just plots`        | Rerun every `plots/*.py` matplotlib script with `uv`    |
 | `just format`       | Format Typst sources with typstyle                      |
 | `just pre-commit`   | Run all hooks with [prek](https://github.com/j178/prek) |
 | `just agent-skills` | Add the agent skills as git submodules                  |
@@ -77,11 +78,15 @@ use Copier above. `just agent-skills` restores the submodules in either case.
   through the cycle.
 - Helpers: `cycle` (the six colors by name), `cycle-color(n)`, `stripe()` for the full palette, and
   `callout(color:, title:)[..]`.
-- Theme options: `font`, `mono-font`, `footer`, `footer-right`, `header-right`, `progress-bar`, `bibliography`.
+- Theme options: `font`, `mono-font`, `math-font`, `footer`, `footer-right`, `header-right`, `progress-bar`,
+  `bibliography`.
 - Citations: pass `bibliography: bibliography(title: none, "refs.bib")` and cite with `@key`. Each citation becomes a
   numbered footnote on its slide; `#magic.bibliography(title: none)` can also list them all on one slide. `bibtex-tidy`
   keeps `.bib` files formatted.
-- Roboto and Roboto Mono are vendored in `fonts/` (OFL), so decks render the same everywhere. Compile with
+- Plots: `theme/cycler.mplstyle` makes matplotlib figures match the slides (colors, Roboto, Fira Math). Put scripts in
+  `plots/`, save SVG, and `#image()` it; `just plots` reruns them. `example/plots/resonance.py` is a complete example,
+  with its dependencies inline so `uv` needs no project setup.
+- Roboto, Roboto Mono and Fira Math are vendored in `fonts/` (OFL), so decks render the same everywhere. Compile with
   `--font-path fonts`, which `just build` does for you.
 
 ## Agent skills
@@ -100,8 +105,8 @@ since jj doesn't track submodules.
 ## Showcase deck
 
 `example/showcase.typ` walks through everything the theme does: text and reveals, columns, callouts, the color cycle, a
-cetz plot in the cycle colors, tables, code, math, citations as footnotes, and QR codes. In this repo, `just build`
-builds it, since there's no `main.typ` here.
+cetz plot and a matplotlib figure in the cycle colors, tables, code, math, citations as footnotes, and QR codes. In this
+repo, `just build` builds it, since there's no `main.typ` here.
 
 For a real deck made with this template, see the
 [`presentation` branch](https://github.com/nikosavola/electrolux-ac-infrared/tree/presentation) of
