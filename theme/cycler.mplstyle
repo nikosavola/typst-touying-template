@@ -15,7 +15,7 @@ mathtext.bf: Fira Math:bold
 mathtext.sf: Fira Math
 mathtext.cal: Fira Math
 mathtext.fallback: cm
-axes.formatter.use_mathtext: true
+axes.formatter.use_mathtext: false  # plain Roboto ticks; mathtext ticks misalign as SVG text
 
 text.color: 1a1a1a
 axes.labelcolor: 1a1a1a
@@ -40,9 +40,9 @@ legend.fontsize: 12
 figure.figsize: 6.4, 3.6  # 16:9, so text stays readable once scaled onto a slide
 figure.autolayout: true
 
-# Transparent SVG, glyphs as paths, so the figure looks the same on any slide
+# Transparent SVG, so the figure sits on any slide background
 savefig.format: svg
 savefig.transparent: true
 savefig.bbox: tight
-svg.fonttype: path
+svg.fonttype: none  # keep text as <text>, so it stays selectable once Typst embeds the figure
 svg.hashsalt: cycler  # stable element ids, so an unchanged plot gives an unchanged file
