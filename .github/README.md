@@ -88,18 +88,19 @@ They're git submodules under `.agents/vendor/`, symlinked into `.agents/skills/`
 `just agent-skills` adds them there after `git init`. In a colocated jj repo, commit the new submodules with `git`,
 since jj doesn't track submodules.
 
-## Demo deck
+## Showcase deck
 
-`example/electrolux-ir.typ` is a flash talk in Finnish, about 8 minutes plus questions, on building the
-[Electrolux AC Infrared](https://github.com/nikosavola/electrolux-ac-infrared) Home Assistant integration: the
-`infrared` building block, how the integration splits into layers, the design choices infrared forces, and how it's
-tested without hardware. It sets `#set text(lang: "fi")`, which also localizes the citation footnotes. Sources are cited
-as per-slide footnotes from `example/refs.bib`. The protocol figure is drawn by a Typst port of the encoder, pinned by
-an `assert` to the Python encoder's output. In this repo, `just build` builds it, since there's no `main.typ` here.
+`example/showcase.typ` walks through everything the theme does: text and reveals, columns, callouts, the color cycle, a
+cetz plot in the cycle colors, tables, code, math, citations as footnotes, and QR codes. In this repo, `just build`
+builds it, since there's no `main.typ` here.
 
-![Infrared building block](../example/images/building-block.webp) ![Whole frame](../example/images/whole-frame.webp)
-![Bit timings](../example/images/timings.webp) ![Three layers](../example/images/layers.webp)
-![Tests without hardware](../example/images/tests.webp)
+![Two columns](../example/images/columns.webp) ![Callouts](../example/images/callouts.webp)
+![The color cycle](../example/images/colors.webp) ![A cetz plot in the cycle colors](../example/images/plot.webp)
+![Citations as footnotes](../example/images/citations.webp)
+
+For a real deck made with this template, see the
+[`presentation` branch](https://github.com/nikosavola/electrolux-ac-infrared/tree/presentation) of
+electrolux-ac-infrared, published at <https://nikosavola.github.io/electrolux-ac-infrared/>.
 
 ## License
 

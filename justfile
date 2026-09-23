@@ -4,7 +4,7 @@ default:
     @just --list
 
 # A generated project builds main.typ; the template repo itself builds its demo deck.
-DECK := env("DECK", if path_exists("main.typ") == "true" { "main.typ" } else { "example/electrolux-ir.typ" })
+DECK := env("DECK", if path_exists("main.typ") == "true" { "main.typ" } else { "example/showcase.typ" })
 BUILD_DIR := "build"
 DECK_NAME := file_stem(DECK)
 FMT_PATHS := "theme " + DECK + if path_exists("example") == "true" { " example" } else { "" }
