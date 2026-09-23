@@ -192,6 +192,7 @@
 ///
 /// - font (str, array): body and heading font. Try "Libertinus Serif" for a serif look.
 /// - mono-font (str, array): font for code.
+/// - math-font (str, array): font for equations.
 /// - footer (content, function): left footer text. Defaults to the short title, else the title.
 /// - progress-bar (bool): draw a thin progress bar along the bottom edge.
 /// - bibliography (bibliography, none): e.g. `bibliography(title: none, "refs.bib")`. Citations then
@@ -201,6 +202,7 @@
   align: horizon,
   font: "Roboto",
   mono-font: "Roboto Mono",
+  math-font: "Fira Math",
   header: self => utils.display-current-heading(depth: self.slide-level),
   header-right: self => utils.display-current-heading(level: 1),
   footer: self => if self.info.short-title == auto { self.info.title } else {
@@ -217,6 +219,7 @@
   // Drawn, so the marker never depends on a glyph the font may lack.
   set list(marker: (box(width: 0.3em, height: 0.3em, baseline: -0.15em, fill: cycle.blue), [–]))
   show raw: set text(font: mono-font)
+  show math.equation: set text(font: math-font)
   show raw.where(block: true): set text(size: 0.8em)
   show raw.where(block: true): block.with(
     width: 100%,
