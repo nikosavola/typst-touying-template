@@ -32,11 +32,12 @@ font_style:
 _min_copier_version: "9.1.0"
 _templates_suffix: .j2
 _answers_file: .copier-answers.yml
-# The demo deck, this repo's own README/license and its agent-skill submodules aren't copied.
+# The demo deck, this repo's own README/license/funding and its agent-skill submodules aren't copied.
 # Generated projects add the skills with `just agent-skills` instead.
 _exclude:
   - "/copier.yml"
   - "/.github/README.md"
+  - "/.github/FUNDING.yml"
   - "/LICENSE"
   - "/example"
   - "/build"
