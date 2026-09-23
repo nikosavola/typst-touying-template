@@ -1,0 +1,59 @@
+project_name:
+  type: str
+  help: What is the name of your presentation project (kebab-case)?
+  placeholder: my-talk
+  validator: |-
+    {% if not (project_name | regex_search('^[a-z][a-z0-9]*(-[a-z0-9]+)*$')) %}
+    Must be kebab-case: lowercase letters and digits, separated by hyphens
+    {% endif %}
+deck_title:
+  type: str
+  help: What is the presentation's title (used on the title slide)?
+  placeholder: My talk
+deck_subtitle:
+  type: str
+  help: An optional one-line subtitle (leave blank for none)
+  default: ""
+author_name:
+  type: str
+  help: Who should appear as the author on the title slide?
+event:
+  type: str
+  help: Where is this being presented (leave blank for none)?
+  default: ""
+font_style:
+  type: str
+  help: Sans (Roboto) or serif (Libertinus Serif) text?
+  choices:
+    Sans: sans
+    Serif: serif
+  default: sans
+# Copier configuration
+_min_copier_version: "9.1.0"
+_templates_suffix: .j2
+_answers_file: .copier-answers.yml
+# The demo deck, this repo's own README/license and its agent-skill submodules aren't copied.
+# Generated projects add the skills with `just agent-skills` instead.
+_exclude:
+  - "/copier.yml"
+  - "/.github/README.md"
+  - "/LICENSE"
+  - "/example"
+  - "/build"
+  - "/.agents"
+  - "/.claude"
+  - "/.gitmodules"
+  - "/.github/workflows/test_copier.yml"
+  - ".DS_Store"
+  - ".git"
+  - ".jj"
+_message_after_copy: |
+  Presentation "{{ project_name }}" has been created!
+
+  Next steps:
+
+    cd "{{ _copier_conf.dst_path }}"
+    git init
+    just agent-skills        # optional: Typst/Touying skills for coding agents
+    just pre-commit-install
+    just build
