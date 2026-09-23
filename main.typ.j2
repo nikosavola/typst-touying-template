@@ -1,0 +1,47 @@
+#import "@preview/touying:0.7.4": *
+#import "theme/cycler.typ": *
+
+#show: cycler-theme.with(
+  aspect-ratio: "16-9",
+  bibliography: bibliography(title: none, "refs.bib"),
+{%- if font_style == "serif" %}
+  font: "Libertinus Serif",
+{%- endif %}
+  config-info(
+    title: [{{ deck_title }}],
+    subtitle: {% if deck_subtitle %}[{{ deck_subtitle }}]{% else %}none{% endif %},
+    author: [{{ author_name }}],
+    institution: {% if event %}[{{ event }}]{% else %}none{% endif %},
+    date: datetime.today(),
+  ),
+)
+
+#title-slide()
+
+= Introduction
+
+== A first slide
+
+- First point
+- Second point, with *emphasis* and a citation @touying
+- Third point #pause
+- Revealed on the next click
+
+#speaker-note[Notes for yourself go here; they aren't shown on the slide.]
+
+== Two columns
+
+#slide(composer: (1fr, 1fr))[
+  Text on the left, and `code` works too.
+
+  #callout(title: [Heads up])[A tinted box for asides.]
+][
+  #table(
+    columns: 2,
+    table.header[*Setting*][*Value*],
+    [Colors], [six, from `cycle`],
+    [Font], [{% if font_style == "serif" %}Libertinus Serif{% else %}Roboto{% endif %}],
+  )
+]
+
+#focus-slide[One idea per slide, and *one* highlight.]
