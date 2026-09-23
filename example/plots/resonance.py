@@ -29,4 +29,14 @@ for q in (10, 30, 100):
 ax.set_xlabel(r"Frequency $f / f_0$")
 ax.set_ylabel(r"$|S_{21}|$")
 ax.legend()
-fig.savefig(Path(__file__).with_suffix(".svg"), metadata={"Date": None})
+fig.savefig(
+    Path(__file__).with_suffix(".svg"),
+    # Date stays out so an unchanged plot gives an unchanged file.
+    metadata={
+        "Date": None,
+        "Title": "Resonance curves",
+        "Description": "|S21| of a resonator for Q = 10, 30 and 100",
+        "Keywords": ["resonance", "quality factor", "S-parameters"],
+        "Rights": "MIT, typst-touying-template",
+    },
+)

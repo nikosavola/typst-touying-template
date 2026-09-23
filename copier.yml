@@ -17,6 +17,10 @@ deck_subtitle:
 author_name:
   type: str
   help: Who should appear as the author on the title slide?
+keywords:
+  type: str
+  help: Optional comma-separated keywords for the PDF metadata
+  default: ""
 event:
   type: str
   help: Where is this being presented (leave blank for none)?

@@ -8,6 +8,9 @@ DECK := env("DECK", if path_exists("main.typ") == "true" { "main.typ" } else { "
 BUILD_DIR := "build"
 DECK_NAME := file_stem(DECK)
 SITE_PDF := env("SITE_PDF", DECK_NAME + ".pdf")
+# PDF/A-2b is built on PDF 1.7: embedded fonts, XMP metadata, archivable.
+PDF_STANDARD := env("PDF_STANDARD", "1.7,a-2b")
+VERAPDF := "verapdf/cli@sha256:d5ee329657cf9bc4b2400392dd54c7d0a0ce9980ff6fa2da5590eebeec007cdb"
 SITE_TITLE := env("SITE_TITLE", DECK_NAME)
 FMT_PATHS := "theme " + DECK + if path_exists("example") == "true" { " example" } else { "" }
 
@@ -22,18 +25,23 @@ LINE_WIDTH := "100"
 [group('build')]
 build:
     mkdir -p {{ BUILD_DIR }}
-    typst compile --root . --font-path fonts {{ DECK }} {{ BUILD_DIR }}/{{ DECK_NAME }}.pdf
+    typst compile --root . --font-path fonts --pdf-standard {{ PDF_STANDARD }} {{ DECK }} {{ BUILD_DIR }}/{{ DECK_NAME }}.pdf
 
 # Recompile the deck on every save
 [group('build')]
 watch:
     mkdir -p {{ BUILD_DIR }}
-    typst watch --root . --font-path fonts {{ DECK }} {{ BUILD_DIR }}/{{ DECK_NAME }}.pdf
+    typst watch --root . --font-path fonts --pdf-standard {{ PDF_STANDARD }} {{ DECK }} {{ BUILD_DIR }}/{{ DECK_NAME }}.pdf
 
 # Render every slide to a PNG in build/ for a quick visual check
 [group('build')]
 preview: build
     typst compile --root . --font-path fonts {{ DECK }} {{ BUILD_DIR }}/preview-{0p}.png --format png --ppi 150
+
+# Validate the PDF against PDF/A-2b with veraPDF (needs Docker)
+[group('build')]
+check-pdf: build
+    docker run --rm -v "$PWD/{{ BUILD_DIR }}":/data {{ VERAPDF }} --flavour 2b --format text /data/{{ DECK_NAME }}.pdf
 
 # Optional PPTX export, one full-slide image per slide (not editable text)
 [group('build')]

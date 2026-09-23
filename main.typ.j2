@@ -1,6 +1,12 @@
 #import "@preview/touying:0.7.4": *
 #import "theme/cycler.typ": *
 
+// Title and author come from config-info below; this fills in the rest of the PDF metadata.
+#set document(
+  description: {% if deck_subtitle %}[{{ deck_subtitle }}]{% else %}none{% endif %},
+  keywords: ({% for k in keywords.split(",") if k.strip() %}"{{ k.strip() }}", {% endfor %}),
+)
+
 #show: cycler-theme.with(
   aspect-ratio: "16-9",
   bibliography: bibliography(title: none, "refs.bib"),

@@ -35,6 +35,7 @@ template fixes without touching your slides.
 | `just build-pptx`   | Optional PPTX export, one image per slide, via `uvx`    |
 | `just site`         | PDF plus an `index.html`, ready for GitHub Pages        |
 | `just plots`        | Rerun every `plots/*.py` matplotlib script with `uv`    |
+| `just check-pdf`    | Validate the PDF as PDF/A-2b with veraPDF (Docker)      |
 | `just format`       | Format Typst sources with typstyle                      |
 | `just pre-commit`   | Run all hooks with [prek](https://github.com/j178/prek) |
 | `just agent-skills` | Add the agent skills as git submodules                  |
@@ -84,6 +85,8 @@ use Copier above. `just agent-skills` restores the submodules in either case.
 - Plots: `theme/cycler.mplstyle` makes matplotlib figures match the slides (colors, Roboto, Fira Math). Put scripts in
   `plots/`, save SVG, and `#image()` it; `just plots` reruns them. `example/plots/resonance.py` is a complete example,
   with its dependencies inline so `uv` needs no project setup.
+- PDFs are built as PDF 1.7 / PDF/A-2b (override with `PDF_STANDARD`), with title, author, subject and keywords in both
+  the document info and XMP metadata. CI checks conformance with veraPDF.
 - Roboto, Roboto Mono and Fira Math are vendored in `fonts/` (OFL), so decks render the same everywhere. Compile with
   `--font-path fonts`, which `just build` does for you.
 
