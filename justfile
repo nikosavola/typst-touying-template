@@ -54,6 +54,16 @@ site: build
         '<p><a href="{{ SITE_PDF }}">Open the slides (PDF)</a></p>' \
         '</object>' > {{ BUILD_DIR }}/site/index.html
 
+# Regenerate matplotlib figures by running every plots/*.py script with uv
+[group('build')]
+plots:
+    #!/usr/bin/env sh
+    set -eu
+    for script in plots/*.py example/plots/*.py; do
+        [ -e "$script" ] || continue
+        uv run --script "$script"
+    done
+
 # Remove build artifacts
 [confirm]
 [group('build')]

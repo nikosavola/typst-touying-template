@@ -1,0 +1,48 @@
+# Matplotlib style matching the cycler Typst theme. Register the fonts in fonts/ first
+# (see example/plots/resonance.py), then plt.style.use() this file.
+
+axes.prop_cycle: cycler('color', ['008fd5', 'fc4f30', '68dc9b', 'ffdf54', '8b8b8b', '810f7c'])
+
+font.family: sans-serif
+font.sans-serif: Roboto, DejaVu Sans, sans-serif
+font.monospace: Roboto Mono, DejaVu Sans Mono, monospace
+font.size: 14
+
+mathtext.fontset: custom
+mathtext.rm: Fira Math
+mathtext.it: Fira Math:italic
+mathtext.bf: Fira Math:bold
+mathtext.sf: Fira Math
+mathtext.cal: Fira Math
+mathtext.fallback: cm
+axes.formatter.use_mathtext: true
+
+text.color: 1a1a1a
+axes.labelcolor: 1a1a1a
+xtick.color: 4d4d4d
+ytick.color: 4d4d4d
+axes.edgecolor: 1a1a1a
+axes.linewidth: 1.2
+axes.xmargin: 0
+axes.grid: true
+axes.spines.top: false
+axes.spines.right: false
+grid.alpha: 0.3
+grid.linestyle: --
+grid.linewidth: 0.6
+
+lines.linewidth: 2
+lines.markersize: 5
+
+legend.frameon: false
+legend.fontsize: 12
+
+figure.figsize: 6.4, 3.6  # 16:9, so text stays readable once scaled onto a slide
+figure.autolayout: true
+
+# Transparent SVG, glyphs as paths, so the figure looks the same on any slide
+savefig.format: svg
+savefig.transparent: true
+savefig.bbox: tight
+svg.fonttype: path
+svg.hashsalt: cycler  # stable element ids, so an unchanged plot gives an unchanged file

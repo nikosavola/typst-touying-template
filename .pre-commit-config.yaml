@@ -15,13 +15,13 @@ repos:
         priority: 20
       - id: check-symlinks
         priority: 10
-      # Font license texts are kept verbatim from upstream.
+      # Font license texts are kept verbatim, and SVGs are generated (e.g. by `just plots`).
       - id: end-of-file-fixer
         priority: 30
-        exclude: ^fonts/
+        exclude: ^fonts/|\.svg$
       - id: trailing-whitespace
         priority: 40
-        exclude: ^fonts/
+        exclude: ^fonts/|\.svg$
       - id: detect-private-key
         priority: 10
       - id: mixed-line-ending
