@@ -87,6 +87,9 @@ use Copier above. `just agent-skills` restores the submodules in either case.
 - Plots: `theme/cycler.mplstyle` makes matplotlib figures match the slides (colors, Roboto, Fira Math). Put scripts in
   `plots/`, save SVG, and `#image()` it; `just plots` reruns them. `example/plots/resonance.py` is a complete example,
   with its dependencies inline so `uv` needs no project setup.
+- Diagrams: a `mermaid` code block, or `mermaid("...")`, renders a [Mermaid](https://mermaid.js.org) diagram in the
+  cycle colors and deck font. [`merman`](https://github.com/Latias94/merman) does it natively in Typst, so the build
+  needs no browser or Node.js. Pass `profile:` or any other `merman` parameter to override `mermaid-profile`.
 - PDFs are built as PDF 1.7 / PDF/A-2b (override with `PDF_STANDARD`), with title, author, subject and keywords in both
   the document info and XMP metadata. CI checks conformance with veraPDF.
 - Roboto, Roboto Mono and Fira Math are vendored in `fonts/` (OFL), so decks render the same everywhere. Compile with
@@ -108,8 +111,8 @@ since jj doesn't track submodules.
 ## Showcase deck
 
 `example/showcase.typ` walks through everything the theme does: text and reveals, columns, callouts, the color cycle, a
-cetz plot and a matplotlib figure in the cycle colors, tables, code, math, citations as footnotes, and QR codes. In this
-repo, `just build` builds it, since there's no `main.typ` here.
+cetz plot, a matplotlib figure and a Mermaid diagram in the cycle colors, tables, code, math, citations as footnotes,
+and QR codes. In this repo, `just build` builds it, since there's no `main.typ` here.
 
 For a real deck made with this template, see the
 [`presentation` branch](https://github.com/nikosavola/electrolux-ac-infrared/tree/presentation) of
