@@ -1,0 +1,6 @@
+[submodule ".agents/vendor/typst-skills"]
+	path = .agents/vendor/typst-skills
+	url = https://github.com/apcamargo/typst-skills
+[submodule ".agents/vendor/seaslides"]
+	path = .agents/vendor/seaslides
+	url = https://github.com/touying-typ/seaslides
