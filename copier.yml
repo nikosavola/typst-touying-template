@@ -28,6 +28,15 @@ font_style:
     Sans: sans
     Serif: serif
   default: sans
+github_pages:
+  type: bool
+  help: Publish the compiled PDF to GitHub Pages on every push?
+  default: false
+pages_branch:
+  type: str
+  help: Which branch should deploy to GitHub Pages?
+  default: main
+  when: "{{ github_pages }}"
 # Copier configuration
 _min_copier_version: "9.1.0"
 _templates_suffix: .j2

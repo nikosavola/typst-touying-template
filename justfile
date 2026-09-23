@@ -7,6 +7,8 @@ default:
 DECK := env("DECK", if path_exists("main.typ") == "true" { "main.typ" } else { "example/showcase.typ" })
 BUILD_DIR := "build"
 DECK_NAME := file_stem(DECK)
+SITE_PDF := env("SITE_PDF", DECK_NAME + ".pdf")
+SITE_TITLE := env("SITE_TITLE", DECK_NAME)
 FMT_PATHS := "theme " + DECK + if path_exists("example") == "true" { " example" } else { "" }
 
 # Keep in sync with the typstyle hook's args in .pre-commit-config.yaml.
@@ -38,6 +40,19 @@ preview: build
 build-pptx:
     mkdir -p {{ BUILD_DIR }}
     uvx touying@0.14.4 compile --root . --font-paths fonts --format pptx --ppi 200 --output {{ BUILD_DIR }}/{{ DECK_NAME }}.pptx {{ DECK }}
+
+# Build the PDF plus an index.html that shows it, for GitHub Pages
+[group('build')]
+site: build
+    mkdir -p {{ BUILD_DIR }}/site
+    cp {{ BUILD_DIR }}/{{ DECK_NAME }}.pdf {{ BUILD_DIR }}/site/{{ SITE_PDF }}
+    printf '%s\n' '<!doctype html>' '<meta charset="utf-8">' \
+        '<meta name="viewport" content="width=device-width, initial-scale=1">' \
+        '<title>{{ SITE_TITLE }}</title>' \
+        '<style>html,body{margin:0;height:100%}object{display:block;width:100%;height:100%}</style>' \
+        '<object data="{{ SITE_PDF }}" type="application/pdf">' \
+        '<p><a href="{{ SITE_PDF }}">Open the slides (PDF)</a></p>' \
+        '</object>' > {{ BUILD_DIR }}/site/index.html
 
 # Remove build artifacts
 [confirm]

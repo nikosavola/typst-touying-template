@@ -33,9 +33,16 @@ template fixes without touching your slides.
 | `just watch`        | Recompile on save                                       |
 | `just preview`      | Render every slide to `build/preview-*.png`             |
 | `just build-pptx`   | Optional PPTX export, one image per slide, via `uvx`    |
+| `just site`         | PDF plus an `index.html`, ready for GitHub Pages        |
 | `just format`       | Format Typst sources with typstyle                      |
 | `just pre-commit`   | Run all hooks with [prek](https://github.com/j178/prek) |
 | `just agent-skills` | Add the agent skills as git submodules                  |
+
+### Publishing to GitHub Pages
+
+Answer yes to the GitHub Pages question and pick a branch. Every push to that branch then runs `just site` and deploys
+the PDF with a small `index.html` around it. Before the first run, set **Settings → Pages → Source** to "GitHub
+Actions", and if the branch isn't the default one, allow it under **Settings → Environments → github-pages**.
 
 ### Or: "Use this template" on GitHub
 
