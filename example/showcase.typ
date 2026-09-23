@@ -4,6 +4,11 @@
 #import "@preview/tiaoma:0.3.0": qrcode
 #import "../theme/cycler.typ": *
 
+#set document(
+  description: [A tour of the cycler Touying theme from typst-touying-template],
+  keywords: ("Typst", "Touying", "slides", "presentation template", "cycler"),
+)
+
 #show: cycler-theme.with(
   aspect-ratio: "16-9",
   bibliography: bibliography(title: none, "refs.bib"),
@@ -129,7 +134,7 @@
   - `just plots` reruns every `plots/*.py` with `uv`
 ]
 
-#speaker-note[The SVG keeps text as outlines and a transparent background, so it looks the same on any slide.]
+#speaker-note[The SVG keeps its text as real, selectable text and has a transparent background, so it fits any slide.]
 
 == Tables
 
