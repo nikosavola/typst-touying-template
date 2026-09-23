@@ -9,7 +9,7 @@
   bibliography: bibliography(title: none, "refs.bib"),
   config-info(
     title: [cycler],
-    subtitle: [A Touying theme built on a matplotlib color cycle],
+    subtitle: [A Typst slide template with batteries included],
     short-title: [cycler showcase],
     author: [typst-touying-template],
     institution: [github.com/nikosavola/typst-touying-template],
