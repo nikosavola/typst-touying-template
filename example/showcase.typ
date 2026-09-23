@@ -136,6 +136,33 @@
 
 #speaker-note[The SVG keeps its text as real, selectable text and has a transparent background, so it fits any slide.]
 
+== Diagrams from Mermaid
+
+#slide(composer: (1fr, 1.3fr))[
+  ```text
+  flowchart LR
+    P[plots/*.py] --> S[SVG]
+    S --> M[main.typ]
+    M --> T{typst}
+    T --> PDF
+    T --> Pages
+  ```
+  #text(
+    size: 0.8em,
+  )[Put it in a `mermaid` code block, or pass it to `mermaid("...")`. Either way it renders in the theme's colors and font.]
+][
+  ```mermaid
+  flowchart LR
+    P[plots/*.py] --> S[SVG]
+    S --> M[main.typ]
+    M --> T{typst}
+    T --> PDF
+    T --> Pages
+  ```
+]
+
+#speaker-note[merman renders Mermaid inside Typst itself, so there's no browser or Node.js in the build.]
+
 == Tables
 
 #align(center, table(

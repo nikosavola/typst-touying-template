@@ -2,6 +2,7 @@
 // Copyright (c) 2026 Niko Savola, https://github.com/nikosavola/typst-touying-template
 // cycler: a Touying theme built around the modified fivethirtyeight matplotlib prop cycle.
 #import "@preview/touying:0.7.4": *
+#import "@preview/merman:0.3.0"
 
 /// The six-color cycle, in matplotlib's `axes.prop_cycle` order.
 #let cycle = (
@@ -35,6 +36,38 @@
     }
     body
   },
+)
+
+/// merman settings that draw Mermaid diagrams in the cycle colors instead of Mermaid's default purple.
+#let mermaid-profile = merman.mermaid-profile(
+  theme-name: "base",
+  background: "transparent",
+  theme: (
+    primaryColor: cycle.blue.lighten(88%).to-hex(),
+    primaryBorderColor: cycle.blue.to-hex(),
+    primaryTextColor: "#1a1a1a",
+    secondaryColor: cycle.red.lighten(85%).to-hex(),
+    tertiaryColor: cycle.green.lighten(80%).to-hex(),
+    lineColor: "#4d4d4d",
+    // Sequence diagrams and pie charts don't derive these from the ones above.
+    actorBkg: cycle.blue.lighten(88%).to-hex(),
+    actorBorder: cycle.blue.to-hex(),
+    actorLineColor: "#8b8b8b",
+    signalColor: "#4d4d4d",
+    noteBkgColor: cycle.yellow.lighten(70%).to-hex(),
+    noteBorderColor: cycle.yellow.darken(20%).to-hex(),
+    pieStrokeColor: "#ffffff",
+    pieOuterStrokeColor: "#ffffff",
+    ..cycle.values().enumerate().map(((i, c)) => ("pie" + str(i + 1), c.to-hex())).to-dict(),
+  ),
+)
+
+/// A Mermaid diagram in the deck's colors and font. `mermaid` code blocks render the same way.
+#let mermaid(source, ..args) = merman.mermaid(
+  source,
+  profile: mermaid-profile,
+  document-context: true,
+  ..args,
 )
 
 #let slide(
@@ -224,6 +257,12 @@
     radius: 2pt,
     fill: rgb("#f4f5f6"),
     stroke: (left: 3pt + cycle.grey.lighten(40%)),
+  )
+  // After the raw-block styling, so a mermaid fence becomes a diagram rather than a code panel.
+  // Explicit typography, since the fence's own context carries the mono font.
+  show raw.where(lang: "mermaid", block: true): merman.show-mermaid-blocks(
+    profile: mermaid-profile,
+    typography: (font: font, size: 18pt),
   )
   show link: set text(fill: cycle.blue)
   set footnote.entry(
