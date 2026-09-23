@@ -1,0 +1,3 @@
+[codespell]
+# "hass" is the usual name for the Home Assistant instance, not a typo of "hash".
+ignore-words-list = hass
