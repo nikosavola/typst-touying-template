@@ -33,16 +33,22 @@
   stroke: (left: 3pt + color),
   {
     let badge = if type(icon) == str {
-      box(baseline: 0.2em, circle(radius: 0.6em, fill: color.darken(15%), stroke: none, align(
+      circle(radius: 0.6em, fill: color.darken(15%), stroke: none, align(
         center + horizon,
         text(size: 0.8em, weight: "black", fill: white, icon),
-      )))
+      ))
     } else { icon }
-    if title != none or badge != none {
-      block(below: 0.5em, {
-        if badge != none { badge + h(0.45em) }
-        text(weight: "bold", fill: color.darken(25%), title)
-      })
+    let heading = text(weight: "bold", fill: color.darken(25%), title)
+    if badge != none {
+      // A grid rather than inline, so the badge centers on the title instead of its baseline.
+      block(below: 0.5em, grid(
+        columns: 2,
+        column-gutter: 0.45em,
+        align: horizon,
+        badge, heading,
+      ))
+    } else if title != none {
+      block(below: 0.5em, heading)
     }
     body
   },
@@ -214,6 +220,31 @@
   }
   touying-slide(self: self, config: config, slide-body)
 })
+
+/// The deck's sections as numbered, linked rows in their cycle colors, like the section slides.
+#let section-outline() = context {
+  let sections = query(heading.where(level: 1))
+  grid(
+    columns: (auto, 1fr, auto),
+    column-gutter: 0.9em,
+    inset: (y: 0.35em),
+    align: (right + horizon, left + horizon, right + horizon),
+    ..sections
+      .enumerate()
+      .map(((i, h)) => {
+        let c = cycle-color(i)
+        (
+          text(size: 1.7em, weight: "black", fill: c, str(i + 1)),
+          link(h.location(), text(size: 1.3em, weight: "bold", fill: rgb("#1a1a1a"), h.body)),
+          text(size: 0.8em, fill: cycle.grey, str(
+            utils.slide-counter.at(h.location()).first() + 1,
+          )),
+          grid.hline(stroke: 0.5pt + rgb("#e6e6e6")),
+        )
+      })
+      .flatten(),
+  )
+}
 
 /// Full-bleed image slide, e.g. `image-slide(image("photo.jpg"))[Caption]`. The body sits at the
 /// bottom left in white on a dark scrim, so it reads on any photo.

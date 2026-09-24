@@ -34,7 +34,7 @@
 
 == Outline <touying:hidden>
 
-#components.adaptive-columns(outline(title: none, indent: 1em, depth: 1))
+#align(horizon, block(width: 70%, section-outline()))
 
 = Basics
 
@@ -237,15 +237,36 @@
 
 == Math
 
+#slide(composer: (1fr, 1fr))[
+  $ X(f) = integral_(-infinity)^(infinity) x(t) e^(-i 2 pi f t) dif t $
+  #v(0.5em)
+  $ mat(1, 2; 3, 4) vec(x, y) = vec(5, 6) $
+][
+  #set text(size: 0.9em)
+  Heisenberg equation of motion
+  $ dif / (dif t) A_H (t) = i / ℏ [H, A_H (t)] + ((partial A) / (partial t))_H $
+  and the uncertainty it leads to
+  $ sigma_x sigma_p >= ℏ / 2 $
+]
+
+== Quantum field theory
+
+#set math.equation(numbering: "(1)")
+
+The generating functional of $phi^4$ theory,
 $
-  X(f) = integral_(-infinity)^(infinity) x(t) e^(-i 2 pi f t) dif t
+  Z[J] = integral cal(D) phi exp(
+    i integral dif^4 x [1 / 2 partial_mu phi partial^mu phi - 1 / 2 m^2 phi^2 - lambda / 4! phi^4 + J phi]
+  ),
+$
+and the Standard Model Lagrangian, with $D_mu = partial_mu - i g_s G_mu^a T^a - i g W_mu^b tau^b / 2 - i g' Y B_mu$,
+$
+  cal(L)_"SM" = & - 1 / 4 F_(mu nu)^a F^(a mu nu) + i macron(psi) gamma^mu D_mu psi \
+  & quad + (D_mu Phi)^dagger (D^mu Phi) - mu^2 Phi^dagger Phi - lambda (Phi^dagger Phi)^2 \
+  & quad - (y_(i j) macron(psi)_(L i) Phi psi_(R j) + "h.c.") .
 $
 
-#v(0.5em)
-
-$
-  mat(1, 2; 3, 4) vec(x, y) = vec(5, 6)
-$
+#set math.equation(numbering: none)
 
 = Wrap-up
 
