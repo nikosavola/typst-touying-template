@@ -24,15 +24,25 @@
   ..cycle.values().map(c => rect(width: 100%, height: 100%, fill: c, stroke: none)),
 )
 
-/// A tinted box with a colored left rule, for asides and warnings.
-#let callout(color: cycle.blue, title: none, body) = block(
+/// A tinted box with a colored left rule, for asides and warnings. `icon` is any content, or a
+/// short string like "i" or "!" that gets drawn as a round badge, so no icon font is needed.
+#let callout(color: cycle.blue, title: none, icon: none, body) = block(
   width: 100%,
   inset: (x: 0.9em, y: 0.7em),
   fill: color.transparentize(88%),
   stroke: (left: 3pt + color),
   {
-    if title != none {
-      block(below: 0.5em, text(weight: "bold", fill: color.darken(25%), title))
+    let badge = if type(icon) == str {
+      box(baseline: 0.2em, circle(radius: 0.6em, fill: color.darken(15%), stroke: none, align(
+        center + horizon,
+        text(size: 0.8em, weight: "black", fill: white, icon),
+      )))
+    } else { icon }
+    if title != none or badge != none {
+      block(below: 0.5em, {
+        if badge != none { badge + h(0.45em) }
+        text(weight: "bold", fill: color.darken(25%), title)
+      })
     }
     body
   },
@@ -205,6 +215,30 @@
   touying-slide(self: self, config: config, slide-body)
 })
 
+/// Full-bleed image slide, e.g. `image-slide(image("photo.jpg"))[Caption]`. The body sits at the
+/// bottom left in white on a dark scrim, so it reads on any photo.
+#let image-slide(config: (:), img, body) = touying-slide-wrapper(self => {
+  self = utils.merge-dicts(
+    self,
+    config-page(
+      fill: self.colors.neutral-darkest,
+      margin: 0em,
+      header: none,
+      footer: none,
+      background: block(width: 100%, height: 100%, clip: true, {
+        set image(width: 100%, height: 100%, fit: "cover")
+        img
+      }),
+    ),
+  )
+  touying-slide(self: self, config: config, std.align(bottom + left, block(
+    width: 100%,
+    inset: (x: 2em, y: 1.2em),
+    fill: gradient.linear(black.transparentize(100%), black.transparentize(40%), angle: 90deg),
+    text(fill: white, size: 1.3em, weight: "bold", body),
+  )))
+})
+
 /// Full-bleed primary-colored slide for a single message. Bold text turns yellow.
 #let focus-slide(config: (:), align: horizon + center, body) = touying-slide-wrapper(self => {
   self = utils.merge-dicts(
@@ -265,6 +299,20 @@
     typography: (font: font, size: 18pt),
   )
   show link: set text(fill: cycle.blue)
+  // Level 1 and 2 headings become sections and slide titles, so level 3 is the in-slide heading.
+  show heading.where(level: 3): set text(size: 1.1em, fill: cycle.blue)
+  show heading.where(level: 3): set block(above: 0.6em, below: 0.5em)
+  show quote.where(block: true): it => block(
+    width: 100%,
+    inset: (left: 1em, y: 0.3em),
+    stroke: (left: 3pt + cycle.blue),
+    {
+      text(size: 1.15em, style: "italic", it.body)
+      if it.attribution != none {
+        block(above: 0.7em, text(size: 0.8em, fill: rgb("#4d4d4d"), [--- ] + it.attribution))
+      }
+    },
+  )
   set footnote.entry(
     separator: line(length: 25%, stroke: 0.5pt + cycle.grey),
     gap: 0.25em,
