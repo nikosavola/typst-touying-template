@@ -9,6 +9,13 @@
   keywords: ("Typst", "Touying", "slides", "presentation template", "cycler"),
 )
 
+// A placeholder logo: swap in `image("logo.svg", height: 1.5em)`.
+#let logo = grid(
+  columns: 3,
+  gutter: 2pt,
+  ..cycle.values().map(c => rect(width: 0.55em, height: 0.55em, radius: 1pt, fill: c)),
+)
+
 #show: cycler-theme.with(
   aspect-ratio: "16-9",
   bibliography: bibliography(title: none, "refs.bib"),
@@ -16,13 +23,18 @@
     title: [cycler],
     subtitle: [A Typst slide template with batteries included],
     short-title: [cycler showcase],
-    author: [typst-touying-template],
-    institution: [github.com/nikosavola/typst-touying-template],
+    author: [Ada Lovelace],
+    institution: [Analytical Engine Society],
     date: datetime.today(),
+    logo: logo,
   ),
 )
 
 #title-slide()
+
+== Outline <touying:hidden>
+
+#align(horizon, block(width: 70%, section-outline()))
 
 = Basics
 
@@ -32,8 +44,24 @@
   - Nested bullets get a dash
 - `inline code` and #link("https://typst.app")[links]
 - Inline math: $e^(i pi) + 1 = 0$
+- `#speaker-note[...]` holds notes that never show on the slide
 
-#speaker-note[Speaker notes live next to the slide and never show on it. Touying can put them on a second screen.]
+#speaker-note[Like this one. Set `config-common(show-notes-on-second-screen: right)` to get them next to each slide, for pdfpc or a presenter view.]
+
+== Typography and quotes
+
+#slide(composer: (1fr, 1fr))[
+  === A level 3 heading
+  Body text in Roboto, with *bold*, _italic_ and `code`.
+
+  #text(size: 0.8em)[Smaller text for asides.] \
+  #text(size: 0.6em, fill: cycle.grey)[And footnote-sized fine print.]
+][
+  #quote(block: true, attribution: [Ada Lovelace])[
+    The Analytical Engine weaves algebraical patterns just as the Jacquard loom weaves flowers // codespell:ignore
+    and leaves.
+  ]
+]
 
 == Step by step
 
@@ -65,13 +93,13 @@
 == Callouts
 
 #slide(composer: (1fr, 1fr))[
-  #callout(title: [Note])[`callout()` defaults to the primary blue.]
+  #callout(title: [Note], icon: "i")[`callout()` defaults to the primary blue.]
   #v(0.5em)
-  #callout(color: cycle.green, title: [Tip])[Pass any `cycle` color.]
+  #callout(color: cycle.green, title: [Tip], icon: "?")[Pass any `cycle` color.]
 ][
-  #callout(color: cycle.purple, title: [Aside])[The title is optional.]
+  #callout(color: cycle.purple, title: [Aside])[The title and `icon` are optional.]
   #v(0.5em)
-  #callout(color: cycle.red, title: [Warning])[Keep it to one or two lines.]
+  #callout(color: cycle.red, title: [Warning], icon: "!")[Keep it to one or two lines.]
 ]
 
 == The color cycle
@@ -96,6 +124,8 @@
 
 #v(0.3em)
 #stripe(height: 6pt)
+
+= Figures
 
 == Plots with cetz
 
@@ -163,11 +193,19 @@
 
 #speaker-note[merman renders Mermaid inside Typst itself, so there's no browser or Node.js in the build.]
 
+== A full-bleed image
+
+#image-slide(image("media/aurora.jpg"))[
+  `image-slide(image("photo.jpg"))[...]` #h(1fr) #text(size: 0.5em, weight: "regular")[Photo: Vincent Guth, CC0]
+]
+
+= Code and data
+
 == Tables
 
 #align(center, table(
   columns: 3,
-  align: (left, center, left),
+  align: (left, center, right),
   table.header[*Recipe*][*Needs*][*Output*],
   [`just build`], [Typst], [PDF in `build/`],
   [`just preview`], [Typst], [one PNG per slide],
@@ -178,31 +216,59 @@
 
 #align(center, text(
   size: 0.8em,
-)[Booktabs-style rules come from the theme, so plain `#table` looks like this.])
+)[Booktabs-style rules come from the theme, so plain `#table` looks like this. Columns align left, center and right.])
 
-== Code
+== Code and its output
 
-```python
-from cycler import cycler
-import matplotlib.pyplot as plt
-
-# The theme's six colors, as a matplotlib prop cycle
-plt.rcParams["axes.prop_cycle"] = cycler(color=[
-    "#008fd5", "#fc4f30", "#68dc9b", "#ffdf54", "#8b8b8b", "#810f7c",
-])
-```
+#slide(composer: (1.2fr, 1fr))[
+  ```typ
+  #callout(
+    color: cycle.green,
+    title: [Tip],
+    icon: "i",
+  )[Pass any `cycle` color.]
+  ```
+  #text(size: 0.8em)[Raw blocks get syntax highlighting for any language Typst knows.]
+][
+  #v(1fr)
+  #callout(color: cycle.green, title: [Tip], icon: "i")[Pass any `cycle` color.]
+  #v(1fr)
+]
 
 == Math
 
+#slide(composer: (1fr, 1fr))[
+  $ X(f) = integral_(-infinity)^(infinity) x(t) e^(-i 2 pi f t) dif t $
+  #v(0.5em)
+  $ mat(1, 2; 3, 4) vec(x, y) = vec(5, 6) $
+][
+  #set text(size: 0.9em)
+  Heisenberg equation of motion
+  $ dif / (dif t) A_H (t) = i / ℏ [H, A_H (t)] + ((partial A) / (partial t))_H $
+  and the uncertainty it leads to
+  $ sigma_x sigma_p >= ℏ / 2 $
+]
+
+== Quantum field theory
+
+#set math.equation(numbering: "(1)")
+
+The generating functional of $phi^4$ theory,
 $
-  X(f) = integral_(-infinity)^(infinity) x(t) e^(-i 2 pi f t) dif t
+  Z[J] = integral cal(D) phi exp(
+    i integral dif^4 x [1 / 2 partial_mu phi partial^mu phi - 1 / 2 m^2 phi^2 - lambda / 4! phi^4 + J phi]
+  ),
+$
+and the Standard Model Lagrangian, with $D_mu = partial_mu - i g_s G_mu^a T^a - i g W_mu^b tau^b / 2 - i g' Y B_mu$,
+$
+  cal(L)_"SM" = & - 1 / 4 F_(mu nu)^a F^(a mu nu) + i macron(psi) gamma^mu D_mu psi \
+  & quad + (D_mu Phi)^dagger (D^mu Phi) - mu^2 Phi^dagger Phi - lambda (Phi^dagger Phi)^2 \
+  & quad - (y_(i j) macron(psi)_(L i) Phi psi_(R j) + "h.c.") .
 $
 
-#v(0.5em)
+#set math.equation(numbering: none)
 
-$
-  mat(1, 2; 3, 4) vec(x, y) = vec(5, 6)
-$
+= Wrap-up
 
 == Citations
 
@@ -212,14 +278,16 @@ $
 
 #speaker-note[Pass `bibliography: bibliography(title: none, "refs.bib")` to the theme, then cite with `@key`.]
 
-== Links and QR codes
+== Get the template
 
 #slide(composer: (1.4fr, 1fr))[
-  - `tiaoma` draws QR codes as vectors
-  - Handy on the last slide, so people can find the repo
+  - `uvx copier copy gh:nikosavola/typst-touying-template my-talk`
+  - The QR code is drawn as vectors by `tiaoma`
 
-  #v(0.4em)
-  #text(size: 0.8em, link("https://github.com/nikosavola/typst-touying-template"))
+  #v(0.6em)
+  #link(
+    "https://github.com/nikosavola/typst-touying-template",
+  )[github.com/nikosavola/typst-touying-template]
 ][
   #align(center + horizon, qrcode(
     "https://github.com/nikosavola/typst-touying-template",

@@ -75,10 +75,11 @@ use Copier above. `just agent-skills` restores the submodules in either case.
   [fivethirtyeight style](https://matplotlib.org/stable/gallery/style_sheets/fivethirtyeight.html). Blue `#008fd5`, red
   `#fc4f30`, grey `#8b8b8b` and purple `#810f7c` are taken as is. Slots 3 and 4 (gold `#e5ae38`, green `#6d904f`) are
   swapped for a brighter green `#68dc9b` and yellow `#ffdf54`.
-- Slides: `title-slide`, `slide`, `focus-slide`, and a numbered section slide per `=` heading. Section numbers step
-  through the cycle.
-- Helpers: `cycle` (the six colors by name), `cycle-color(n)`, `stripe()` for the full palette, and
-  `callout(color:, title:)[..]`.
+- Slides: `title-slide` (with an optional `logo`), `slide`, `focus-slide`, `image-slide` for a full-bleed photo, and a
+  numbered section slide per `=` heading. Section numbers step through the cycle.
+- Helpers: `cycle` (the six colors by name), `cycle-color(n)`, `stripe()` for the full palette, `section-outline()` for
+  an agenda slide, and `callout(color:, title:, icon:)[..]`, where `icon: "!"` draws a round badge without an icon font.
+  `===` headings and `#quote(block: true)` are styled too.
 - Theme options: `font`, `mono-font`, `math-font`, `footer`, `footer-right`, `header-right`, `progress-bar`,
   `bibliography`.
 - Citations: pass `bibliography: bibliography(title: none, "refs.bib")` and cite with `@key`. Each citation becomes a
@@ -110,9 +111,10 @@ since jj doesn't track submodules.
 
 ## Showcase deck
 
-`example/showcase.typ` walks through everything the theme does: text and reveals, columns, callouts, the color cycle, a
-cetz plot, a matplotlib figure and a Mermaid diagram in the cycle colors, tables, code, math, citations as footnotes,
-and QR codes. In this repo, `just build` builds it, since there's no `main.typ` here.
+`example/showcase.typ` walks through everything the theme does: an outline, text, typography and quotes, reveals,
+columns, callouts, the color cycle, a cetz plot, a matplotlib figure and a Mermaid diagram in the cycle colors, a
+full-bleed photo, tables, code next to its output, math, citations as footnotes, speaker notes, and QR codes. In this
+repo, `just build` builds it, since there's no `main.typ` here.
 
 For a real deck made with this template, see the
 [`presentation` branch](https://github.com/nikosavola/electrolux-ac-infrared/tree/presentation) of
