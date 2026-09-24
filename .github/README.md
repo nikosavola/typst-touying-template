@@ -73,10 +73,11 @@ use Copier above. `just agent-skills` restores the submodules in either case.
 - Content, with *highlights* in the primary blue
 ```
 
-- Slides: `title-slide`, `slide`, `focus-slide`, and a numbered section slide per `=` heading. Section numbers step
-  through the cycle.
+- Slides: `title-slide` (with an optional `logo`), `slide`, `focus-slide`, `image-slide` for a full-bleed photo, and a
+  numbered section slide per `=` heading. Section numbers step through the cycle.
 - Helpers: `cycle` (the six colors by name), `cycle-color(n)`, `stripe()` for the full palette, and
-  `callout(color:, title:)[..]`.
+  `callout(color:, title:, icon:)[..]`, where `icon: "!"` draws a round badge without an icon font. `===` headings and
+  `#quote(block: true)` are styled too.
 - Theme options: `font`, `mono-font`, `math-font`, `footer`, `footer-right`, `header-right`, `progress-bar`,
   `bibliography`.
 - Citations: pass `bibliography: bibliography(title: none, "refs.bib")` and cite with `@key`. Each citation becomes a
@@ -108,9 +109,10 @@ since jj doesn't track submodules.
 
 ## Showcase deck
 
-`example/showcase.typ` walks through everything the theme does: text and reveals, columns, callouts, the color cycle, a
-cetz plot, a matplotlib figure and a Mermaid diagram in the cycle colors, tables, code, math, citations as footnotes,
-and QR codes. In this repo, `just build` builds it, since there's no `main.typ` here.
+`example/showcase.typ` walks through everything the theme does: an outline, text, typography and quotes, reveals,
+columns, callouts, the color cycle, a cetz plot, a matplotlib figure and a Mermaid diagram in the cycle colors, a
+full-bleed photo, tables, code next to its output, math, citations as footnotes, speaker notes, and QR codes. In this
+repo, `just build` builds it, since there's no `main.typ` here.
 
 ![Two columns](../example/images/columns.webp) ![Callouts](../example/images/callouts.webp)
 ![The color cycle](../example/images/colors.webp) ![A cetz plot in the cycle colors](../example/images/plot.webp)
