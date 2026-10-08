@@ -10,6 +10,8 @@ A [Copier](https://copier.readthedocs.io) template for [Typst](https://typst.app
 fivethirtyeight color cycle from a matplotlib style, plus the tooling around it: a `justfile`, pre-commit hooks, CI,
 vendored fonts, and Typst/Touying skills for coding agents.
 
+![Title slide of the demo deck](../example/images/title.svg)
+
 ## Creating a new presentation
 
 ```sh
@@ -115,6 +117,14 @@ since jj doesn't track submodules.
 columns, callouts, the color cycle, a cetz plot, a matplotlib figure and a Mermaid diagram in the cycle colors, a
 full-bleed photo, tables, code next to its output, math, citations as footnotes, speaker notes, and QR codes. In this
 repo, `just build` builds it, since there's no `main.typ` here.
+
+![Two columns](../example/images/columns.svg) ![Callouts](../example/images/callouts.svg)
+![The color cycle](../example/images/colors.svg) ![A cetz plot in the cycle colors](../example/images/plot.svg)
+![A matplotlib plot in the theme's style](../example/images/matplotlib.svg)
+![A Mermaid flowchart in the theme's style](../example/images/mermaid.svg)
+![Citations as footnotes](../example/images/citations.svg)
+
+The screenshots are vector SVGs, cut from the built PDF by `just readme-images` (needs `pdftocairo` from poppler).
 
 For a real deck made with this template, see the
 [`presentation` branch](https://github.com/nikosavola/electrolux-ac-infrared/tree/presentation) of
