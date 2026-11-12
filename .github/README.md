@@ -96,6 +96,8 @@ use Copier above. `just agent-skills` restores the submodules in either case.
 - Dense slides: `fit[..]` shrinks the text inside it just enough to fit the height the slide has left, so there's no
   need to hand-tune `text(size: 0.6em)` per slide. It never grows text and stops at `min:` (50% by default). Still too
   full at that size, it gets a red badge, and `just check-overflow` fails.
+- `stat(value, label, color:)` draws a big number with a label under it. Touying's `cols(..)` sets blocks like these, or
+  any others, side by side in equal columns, in place of a hand-written `grid(columns: (1fr, 1fr), ..)`.
 - Slide titles: a title too long for one line shrinks and wraps to two lines inside the header, so a full-sentence
   result can be the title without running into the slide. On the title slide, a title past three lines shrinks to fit
   three, so there's no need to wrap it in `text(size: ..)`.

@@ -191,6 +191,15 @@
   ))
 }
 
+/// A big number with a short label under it, for the one result a slide is about. `color` is
+/// darkened with `ink`, so any cycle color reads. Put several side by side with `cols`. Math in
+/// `value` stays regular weight, since Fira Math has no bold.
+#let stat(value, label, color: cycle.blue, size: 2.4em) = block(breakable: false, {
+  set par(leading: 0.4em)
+  block(below: 0.35em, text(size: size, weight: "black", fill: ink(color), value))
+  text(size: 0.75em, fill: rgb("#4d4d4d"), label)
+})
+
 /// A tinted box with a colored left rule, for asides and warnings. `icon` is any content, or a
 /// short string like "i" or "!" that gets drawn as a round badge, so no icon font is needed.
 #let callout(color: cycle.blue, title: none, icon: none, body) = block(

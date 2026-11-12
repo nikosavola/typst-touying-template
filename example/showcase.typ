@@ -335,6 +335,19 @@ $
   ]
 ]
 
+== Big numbers
+
+#cols(
+  stat[1842][Menabrea's paper on the engine],
+  stat(color: cycle.red)[1843][the translation, with notes],
+  stat(color: cycle.green)[7][notes, A to G, longer than the paper],
+)
+
+#v(1.2em)
+
+- `stat(value, label, color:)` for the one result a slide is about
+- `cols(..)` from Touying sets any blocks side by side in equal columns, or pass `columns: (2fr, 1fr)`
+
 = Wrap-up
 
 == Citations

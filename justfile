@@ -100,7 +100,7 @@ readme-images: build
     #!/usr/bin/env sh
     set -eu
     # name:page in the showcase deck; update when slides move
-    for spec in title:1 columns:9 callouts:11 colors:12 plot:14 matplotlib:15 mermaid:17 citations:28; do
+    for spec in title:1 columns:9 callouts:11 colors:12 plot:14 matplotlib:15 mermaid:17 citations:29; do
         out="example/images/${spec%%:*}.svg"
         pdftocairo -svg -f "${spec#*:}" -l "${spec#*:}" {{ BUILD_DIR }}/{{ DECK_NAME }}.pdf "$out"
         # cairo leaves a sliver at the page edge, which shows as a line on dark pages
