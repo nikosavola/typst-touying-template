@@ -27,6 +27,20 @@
   ..cycle.values().map(c => rect(width: 100%, height: 100%, fill: c, stroke: none)),
 )
 
+/// Slightly smaller text, for dense bullets under a figure.
+#let small(body) = text(size: 0.8em, body)
+
+/// Grey fine print: sources, caveats, what a plot shows.
+#let fine(body) = text(size: 0.62em, fill: cycle.grey, body)
+
+/// A centered figure with optional fine print below. `src` is an `image(...)` or any content, or
+/// a path string. A string resolves from this file, so give it from the project root, like
+/// "/figures/plot.svg"; extra named arguments such as `width` go to `image`.
+#let fig(src, caption: none, ..args) = align(center, {
+  if type(src) == str { image(src, ..args) } else { src }
+  if caption != none { block(above: 0.4em, fine(caption)) }
+})
+
 /// A tinted box with a colored left rule, for asides and warnings. `icon` is any content, or a
 /// short string like "i" or "!" that gets drawn as a round badge, so no icon font is needed.
 #let callout(color: cycle.blue, title: none, icon: none, body) = block(

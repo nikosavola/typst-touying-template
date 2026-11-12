@@ -54,8 +54,8 @@
   === A level 3 heading
   Body text in Roboto, with *bold*, _italic_ and `code`.
 
-  #text(size: 0.8em)[Smaller text for asides.] \
-  #text(size: 0.6em, fill: cycle.grey)[And footnote-sized fine print.]
+  #small[`small[...]` for dense bullets under a figure.] \
+  #fine[`fine[...]` for sources and caveats.]
 ][
   #quote(block: true, attribution: [Ada Lovelace])[
     The Analytical Engine weaves algebraical patterns just as the Jacquard loom weaves flowers // codespell:ignore
@@ -156,11 +156,15 @@
 == Plots from matplotlib
 
 #slide(composer: (1.6fr, 1fr))[
-  #image("plots/resonance.svg", width: 100%)
+  #fig(
+    "/example/plots/resonance.svg",
+    width: 100%,
+    caption: [`fig(path, caption: ...)` centers it.],
+  )
 ][
   #set text(size: 0.85em)
   - `theme/cycler.mplstyle` matches the slides: colors, Roboto, Fira Math
-  - Save as SVG, then `#image("plots/resonance.svg")`
+  - Save as SVG, then `#fig("/plots/resonance.svg")`
   - `just plots` reruns every `plots/*.py` with `uv`
 ]
 
