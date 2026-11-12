@@ -173,8 +173,10 @@
 == Explaining a figure
 
 #slide(composer: (1.6fr, 1fr))[
-  #fig("/example/plots/resonance.svg", width: 100%)
-  #note[`note[...]` says what the axes and markers are, so the figure needs no caption slide.]
+  #fig-fill(
+    "/example/plots/resonance.svg",
+    explain: [`fig-fill(path, explain: ...)` sizes the plot to the room left above a `note`, which says what the axes and markers are.],
+  )
 ][
   #compare(
     ([Usual], [Quote $Q$ from the width at half power.]),

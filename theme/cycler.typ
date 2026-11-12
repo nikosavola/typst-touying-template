@@ -66,6 +66,25 @@
   text(size: 0.68em, if label == none { body } else [*#label* #body]),
 )
 
+/// A figure as large as the space left below it allows, so no `height` has to be tuned by hand.
+/// It fills the rest of its column or slide, keeps its aspect ratio, and stays centered. `src` is a
+/// path, given from the project root like in `fig`. `explain` goes in a `note` panel under it and
+/// `caption` in fine print. Anything placed after it on the slide gets no room.
+#let fig-fill(src, caption: none, explain: none, label: [What is plotted.], gap: 0.5em) = block(
+  height: 1fr,
+  width: 100%,
+  layout(size => {
+    let below = {
+      if caption != none { block(above: 0.4em, fine(caption)) }
+      if explain != none { block(above: gap, note(label: label, explain)) }
+    }
+    let room = size.height - measure(block(width: size.width, below)).height
+    let natural = measure(image(src, width: size.width)).height
+    align(center, image(src, height: calc.max(calc.min(natural, room), 0pt)))
+    below
+  }),
+)
+
 /// Labelled rows that set one approach against another, like "usual" practice and "this work".
 /// Pass pairs of label and content. The last row is drawn in the primary color, the rest in grey.
 #let compare(..rows) = {
