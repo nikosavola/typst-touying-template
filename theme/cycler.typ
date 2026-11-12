@@ -45,8 +45,9 @@
 /// Slightly smaller text, for dense bullets under a figure.
 #let small(body) = text(size: 0.8em, body)
 
-/// Grey fine print: sources, caveats, what a plot shows.
-#let fine(body) = text(size: 0.62em, fill: cycle.grey, body)
+/// Grey fine print: sources, caveats, what a plot shows. The grey is darkened with `ink`, since
+/// plain `cycle.grey` is too faint for text this small.
+#let fine(body) = text(size: 0.62em, fill: ink(cycle.grey), body)
 
 /// A centered figure with optional fine print below. `src` is an `image(...)` or any content, or
 /// a path string. A string resolves from this file, so give it from the project root, like
@@ -125,8 +126,8 @@
       .map(((i, (label, body))) => {
         let last = i == n - 1
         (
-          text(weight: "bold", fill: if last { cycle.blue } else { cycle.grey }, label),
-          if last { body } else { text(fill: cycle.grey, body) },
+          text(weight: "bold", fill: if last { cycle.blue } else { ink(cycle.grey) }, label),
+          if last { body } else { text(fill: ink(cycle.grey), body) },
         )
       })
       .flatten(),
