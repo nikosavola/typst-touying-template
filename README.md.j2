@@ -20,6 +20,9 @@ just pre-commit   # run all hooks
 just agent-skills # add Typst/Touying skills for coding agents under .agents/skills
 ```
 
+A deck inside a bigger project can show its figures and data: `ROOT=.. just build` lets Typst read the parent
+directory, and paths from that root such as `json("/data/numbers.json")` resolve in the deck.
+
 Requires [Typst](https://typst.app), [`just`](https://github.com/casey/just), and [`prek`](https://github.com/j178/prek)
 for the hooks. The optional `build-pptx` also needs [`uv`](https://docs.astral.sh/uv/).
 

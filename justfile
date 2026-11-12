@@ -12,12 +12,15 @@ SITE_PDF := env("SITE_PDF", DECK_NAME + ".pdf")
 PDF_STANDARD := env("PDF_STANDARD", "1.7,a-2b")
 VERAPDF := "verapdf/cli@sha256:d5ee329657cf9bc4b2400392dd54c7d0a0ce9980ff6fa2da5590eebeec007cdb"
 SITE_TITLE := env("SITE_TITLE", DECK_NAME)
+# Typst only reads files under the root. Set ROOT=.. or higher when the deck sits inside a bigger
+# project and shows figures or data from it, then give those paths from that root ("/paper/fig.svg").
+ROOT := env("ROOT", ".")
 FMT_PATHS := "theme " + DECK + if path_exists("example") == "true" { " example" } else { "" }
 
 # Keep in sync with the typstyle hook's args in .pre-commit-config.yaml.
 LINE_WIDTH := "100"
 
-# `just` runs recipes from the justfile's directory, so `--root .` and `--font-path fonts` always resolve.
+# `just` runs recipes from the justfile's directory, so the default root and `--font-path fonts` always resolve.
 
 # --- Build ---
 
@@ -25,18 +28,18 @@ LINE_WIDTH := "100"
 [group('build')]
 build:
     mkdir -p {{ BUILD_DIR }}
-    typst compile --root . --font-path fonts --pdf-standard {{ PDF_STANDARD }} {{ DECK }} {{ BUILD_DIR }}/{{ DECK_NAME }}.pdf
+    typst compile --root {{ ROOT }} --font-path fonts --pdf-standard {{ PDF_STANDARD }} {{ DECK }} {{ BUILD_DIR }}/{{ DECK_NAME }}.pdf
 
 # Recompile the deck on every save
 [group('build')]
 watch:
     mkdir -p {{ BUILD_DIR }}
-    typst watch --root . --font-path fonts --pdf-standard {{ PDF_STANDARD }} {{ DECK }} {{ BUILD_DIR }}/{{ DECK_NAME }}.pdf
+    typst watch --root {{ ROOT }} --font-path fonts --pdf-standard {{ PDF_STANDARD }} {{ DECK }} {{ BUILD_DIR }}/{{ DECK_NAME }}.pdf
 
 # Render every slide to a PNG in build/ for a quick visual check
 [group('build')]
 preview: build
-    typst compile --root . --font-path fonts {{ DECK }} {{ BUILD_DIR }}/preview-{0p}.png --format png --ppi 150
+    typst compile --root {{ ROOT }} --font-path fonts {{ DECK }} {{ BUILD_DIR }}/preview-{0p}.png --format png --ppi 150
 
 # Validate the PDF against PDF/A-2b with veraPDF (needs Docker)
 [group('build')]
@@ -47,7 +50,7 @@ check-pdf: build
 [group('build')]
 build-pptx:
     mkdir -p {{ BUILD_DIR }}
-    uvx touying@0.14.4 compile --root . --font-paths fonts --format pptx --ppi 200 --output {{ BUILD_DIR }}/{{ DECK_NAME }}.pptx {{ DECK }}
+    uvx touying@0.14.4 compile --root {{ ROOT }} --font-paths fonts --format pptx --ppi 200 --output {{ BUILD_DIR }}/{{ DECK_NAME }}.pptx {{ DECK }}
 
 # Build the PDF plus an index.html that shows it, for GitHub Pages
 [group('build')]
