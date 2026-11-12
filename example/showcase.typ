@@ -313,6 +313,28 @@ $
 
 #set math.equation(numbering: none)
 
+= Research talks
+
+== Dense text fits the space it is given
+
+#slide(align: top, composer: (1fr, 1fr))[
+  #fig-fill("/example/plots/resonance.svg")
+][
+  #fit[
+    - `fit[...]` shrinks the text inside it just enough to fit the height the slide has left,
+      instead of a hand-tuned `text(size: 0.6em)`
+    - It never grows text, and it stops at `min: 50%`, so a slide that is far too full still
+      shows that it is
+    - Math scales with it: $Q^(-1) = Q_"i"^(-1) + Q_"c"^(-1)$
+    - Give it `height:` to fill a fixed box instead, or `align: top` to pin the text up
+    - Here the figure on the left takes the column height with `fig-fill`, and these
+      bullets take whatever size fits next to it. Add a bullet and they shrink, remove one and they
+      grow back to full size
+    - This slide has one bullet too many for full size, so the text here is a little smaller than
+      on the other slides
+  ]
+]
+
 = Wrap-up
 
 == Citations

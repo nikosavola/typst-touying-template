@@ -86,6 +86,34 @@
   })
 }
 
+/// `body` with its text shrunk just enough to fit the height the slide has left, in place of
+/// hand-tuned `text(size: 0.6em)[..]`. Text never grows, and stops shrinking at `min`. Pass a
+/// `height` to fit a fixed box instead, and `align` to place the body in the leftover space. Too
+/// full even at `min`, it runs past its box and gets a red badge, or stops the build under
+/// `--input overflow=error` like an overflowing slide; only `--input`, not the theme's `overflow`
+/// option, turns the badge off. Keep `#pause` outside it, since Touying can't see into a `layout`.
+#let fit(body, height: 1fr, min: 50%, align: horizon) = block(width: 100%, height: height, layout(
+  size => {
+    let scales = range(100, int(min / 1%) - 1, step: -4).map(x => x * 1%)
+    let fits(s) = measure(block(width: size.width, text(size: s * 1em, body))).height <= size.height
+    let pick = scales.find(fits)
+    if pick != none {
+      std.align(align, text(size: pick * 1em, body))
+    } else {
+      let mode = sys.inputs.at("overflow", default: "mark")
+      if mode == "error" { panic("a fit block is too full even at its min size") }
+      std.align(top, text(size: scales.last() * 1em, body))
+      if mode != "none" {
+        place(top + right, box(fill: cycle.red, inset: (x: 0.6em, y: 0.35em), radius: 3pt, text(
+          size: 12pt,
+          weight: "bold",
+          fill: white,
+        )[Too full to fit]))
+      }
+    }
+  },
+))
+
 /// A grey panel of small text under a figure, saying what is plotted. `label` leads in bold;
 /// pass `none` to drop it.
 #let note(label: [What is plotted.], body) = block(
