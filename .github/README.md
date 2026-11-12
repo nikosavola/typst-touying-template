@@ -83,7 +83,8 @@ use Copier above. `just agent-skills` restores the submodules in either case.
   an agenda slide, and `callout(color:, title:, icon:)[..]`, where `icon: "!"` draws a round badge without an icon font.
   `ink(color)` darkens any color until text in it reads on white, which callout titles use.
 - Text and figures: `small[..]` for dense bullets, `fine[..]` for grey fine print, and `fig(path, caption:)` for a
-  centered figure with fine print below. Give `fig` paths from the project root, like `"/figures/plot.svg"`. `===`
+  centered figure with fine print below. `note[..]` puts a grey "what is plotted" panel under a figure, and
+  `compare((label, body), ..)` sets approaches against each other with the last one highlighted. Give `fig` paths from the project root, like `"/figures/plot.svg"`. `===`
   headings and `#quote(block: true)` are styled too.
 - Theme options: `text-size` (20pt by default, and everything else scales with it), `font`, `mono-font`, `math-font`,
   `footer`, `footer-right`, `header-right`, `progress-bar`, `bibliography`.

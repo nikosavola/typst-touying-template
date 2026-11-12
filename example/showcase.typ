@@ -170,6 +170,23 @@
 
 #speaker-note[The SVG keeps its text as real, selectable text and has a transparent background, so it fits any slide.]
 
+== Explaining a figure
+
+#slide(composer: (1.6fr, 1fr))[
+  #fig("/example/plots/resonance.svg", width: 100%)
+  #note[`note[...]` says what the axes and markers are, so the figure needs no caption slide.]
+][
+  #compare(
+    ([Usual], [Quote $Q$ from the width at half power.]),
+    ([Here], [Fit the whole line shape, so the tails count too.]),
+  )
+  #v(0.6em)
+  #small[
+    - `compare` takes label and content pairs
+    - The last row is highlighted
+  ]
+]
+
 == Diagrams from Mermaid
 
 #slide(composer: (1fr, 1.3fr))[

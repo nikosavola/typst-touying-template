@@ -56,6 +56,39 @@
   if caption != none { block(above: 0.4em, fine(caption)) }
 })
 
+/// A grey panel of small text under a figure, saying what is plotted. `label` leads in bold;
+/// pass `none` to drop it.
+#let note(label: [What is plotted.], body) = block(
+  width: 100%,
+  inset: (x: 0.6em, y: 0.45em),
+  radius: 3pt,
+  fill: luma(244),
+  text(size: 0.68em, if label == none { body } else [*#label* #body]),
+)
+
+/// Labelled rows that set one approach against another, like "usual" practice and "this work".
+/// Pass pairs of label and content. The last row is drawn in the primary color, the rest in grey.
+#let compare(..rows) = {
+  let rows = rows.pos()
+  let n = rows.len()
+  text(size: 0.75em, grid(
+    columns: (auto, 1fr),
+    column-gutter: 0.6em,
+    row-gutter: 0.5em,
+    align: top,
+    ..rows
+      .enumerate()
+      .map(((i, (label, body))) => {
+        let last = i == n - 1
+        (
+          text(weight: "bold", fill: if last { cycle.blue } else { cycle.grey }, label),
+          if last { body } else { text(fill: cycle.grey, body) },
+        )
+      })
+      .flatten(),
+  ))
+}
+
 /// A tinted box with a colored left rule, for asides and warnings. `icon` is any content, or a
 /// short string like "i" or "!" that gets drawn as a round badge, so no icon font is needed.
 #let callout(color: cycle.blue, title: none, icon: none, body) = block(
