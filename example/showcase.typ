@@ -258,6 +258,28 @@
   #v(1fr)
 ]
 
+== Numbers from a data file
+
+#let num = values(json("/example/data/results.json"))
+
+#slide(composer: (1fr, 1fr))[
+  The fit gives $Q = #num("q_fit") plus.minus #num("q_err")$ at $f_0 = #num("f0_ghz")$ GHz, from $#num("n_points")$ points.
+
+  #v(0.6em)
+  #small[
+    - A script writes the numbers once, to `data/results.json`
+    - The slides and a paper read the same file, so they always agree
+    - A missing key stops the build instead of showing a stale number
+  ]
+][
+  ```typ
+  #let num = values(
+    json("/data/results.json"),
+  )
+  $Q = #num("q_fit")$
+  ```
+]
+
 == Math
 
 #slide(composer: (1fr, 1fr))[

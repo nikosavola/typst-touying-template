@@ -85,6 +85,17 @@
   }),
 )
 
+/// Numbers kept in a data file, like the results a paper is built from, so the slides never fall
+/// out of step with it. `data` is a dictionary such as `json("/paper/numbers.json")` whose values
+/// are strings in math syntax ("3.1", "1.2 times 10^3") or plain numbers. Returns a function that
+/// gives one value as math by its key, for use inside `$..$`. A missing key stops the build.
+/// Don't name the result `v`, which would hide Typst's own `v()` spacing.
+#let values(data) = key => {
+  assert(key in data, message: "no value named " + repr(key) + " in the data")
+  let value = data.at(key)
+  eval(if type(value) == str { value } else { str(value) }, mode: "math")
+}
+
 /// Labelled rows that set one approach against another, like "usual" practice and "this work".
 /// Pass pairs of label and content. The last row is drawn in the primary color, the rest in grey.
 #let compare(..rows) = {
