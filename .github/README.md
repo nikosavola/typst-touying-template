@@ -81,6 +81,7 @@ use Copier above. `just agent-skills` restores the submodules in either case.
   numbered section slide per `=` heading. Section numbers step through the cycle.
 - Helpers: `cycle` (the six colors by name), `cycle-color(n)`, `stripe()` for the full palette, `section-outline()` for
   an agenda slide, and `callout(color:, title:, icon:)[..]`, where `icon: "!"` draws a round badge without an icon font.
+  `ink(color)` darkens any color until text in it reads on white, which callout titles use.
 - Text and figures: `small[..]` for dense bullets, `fine[..]` for grey fine print, and `fig(path, caption:)` for a
   centered figure with fine print below. Give `fig` paths from the project root, like `"/figures/plot.svg"`. `===`
   headings and `#quote(block: true)` are styled too.

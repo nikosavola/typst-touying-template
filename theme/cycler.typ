@@ -20,6 +20,21 @@
 /// Color `n` of the cycle, wrapping around like matplotlib does.
 #let cycle-color(n) = cycle.values().at(calc.rem(n, cycle.len()))
 
+/// WCAG relative luminance of a color, 0 for black and 1 for white.
+#let luminance(c) = {
+  let (r, g, b, _) = c.rgb().components().map(x => x / 100%)
+  let lin(v) = if v <= 0.04045 { v / 12.92 } else { calc.pow((v + 0.055) / 1.055, 2.4) }
+  0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b)
+}
+
+/// `c` darkened until text in it reads on white at 4.5:1 or better. Yellow and green need far more
+/// darkening than blue or red, so a fixed `darken` either washes them out or muddies the rest.
+#let ink(c) = {
+  let out = c
+  while luminance(out) > 0.18 { out = out.darken(8%) }
+  out
+}
+
 /// A horizontal stripe with one segment per cycle color, for decks that want the full palette.
 #let stripe(height: 4pt) = grid(
   columns: (1fr,) * cycle.len(),
@@ -50,12 +65,12 @@
   stroke: (left: 3pt + color),
   {
     let badge = if type(icon) == str {
-      circle(radius: 0.6em, fill: color.darken(15%), stroke: none, align(
+      circle(radius: 0.6em, fill: ink(color), stroke: none, align(
         center + horizon,
         text(size: 0.8em, weight: "black", fill: white, icon),
       ))
     } else { icon }
-    let heading = text(weight: "bold", fill: color.darken(25%), title)
+    let heading = text(weight: "bold", fill: ink(color), title)
     if badge != none {
       // A grid rather than inline, so the badge centers on the title instead of its baseline.
       block(below: 0.5em, grid(
