@@ -31,7 +31,7 @@ template fixes without touching your slides.
 | --------------------- | ------------------------------------------------------- |
 | `just build`          | Compile the deck to a PDF in `build/`                   |
 | `just watch`          | Recompile on save                                       |
-| `just preview`        | Render every slide to `build/preview-*.png`             |
+| `just preview`        | Slides as `build/preview-*.png`; `just preview 3,5-7`   |
 | `just build-pptx`     | Optional PPTX export, one image per slide, via `uvx`    |
 | `just site`           | PDF plus an `index.html`, ready for GitHub Pages        |
 | `just plots`          | Rerun every `plots/*.py` matplotlib script with `uv`    |

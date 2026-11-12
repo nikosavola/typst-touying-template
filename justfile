@@ -39,10 +39,11 @@ watch:
     mkdir -p {{ BUILD_DIR }}
     typst watch --root {{ ROOT }} --font-path fonts --pdf-standard {{ PDF_STANDARD }} {{ DECK }} {{ BUILD_DIR }}/{{ DECK_NAME }}.pdf
 
-# Render every slide to a PNG in build/ for a quick visual check
+# Render slides to PNGs in build/ for a quick visual check: all of them, or pages like `just preview 3,5-7`
 [group('build')]
-preview: build
-    typst compile --root {{ ROOT }} --font-path fonts {{ DECK }} {{ BUILD_DIR }}/preview-{0p}.png --format png --ppi 150
+preview pages="": build
+    {{ if pages == "" { "rm -f " + BUILD_DIR + "/preview-*.png" } else { "" } }}
+    typst compile --root {{ ROOT }} --font-path fonts {{ if pages == "" { "" } else { "--pages " + pages } }} {{ DECK }} {{ BUILD_DIR }}/preview-{0p}.png --format png --ppi 150
 
 # Fail if any slide's content spills onto an extra page
 [group('build')]
