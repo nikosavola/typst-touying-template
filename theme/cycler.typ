@@ -49,13 +49,42 @@
 /// plain `cycle.grey` is too faint for text this small.
 #let fine(body) = text(size: 0.62em, fill: ink(cycle.grey), body)
 
-/// A centered figure with optional fine print below. `src` is an `image(...)` or any content, or
-/// a path string. A string resolves from this file, so give it from the project root, like
-/// "/figures/plot.svg"; extra named arguments such as `width` go to `image`.
-#let fig(src, caption: none, ..args) = align(center, {
-  if type(src) == str { image(src, ..args) } else { src }
-  if caption != none { block(above: 0.4em, fine(caption)) }
-})
+// A length, ratio or relative length, resolved against `full`; none for auto. Needs context.
+#let _resolve(x, full) = if x == auto { none } else if type(x) == ratio { x * full } else if (
+  type(x) == relative
+) { x.ratio * full + x.length.to-absolute() } else { x.to-absolute() }
+
+// The factor that scales a `have`-sized box to the largest size within `width` by `height`,
+// either of which may be none for no limit.
+#let _contain-factor(have, width, height) = {
+  let factors = ((width, have.width), (height, have.height))
+    .filter(((limit, n)) => limit != none and n > 0pt)
+    .map(((limit, n)) => limit / n)
+  if factors.len() == 0 { 1 } else { calc.min(..factors) }
+}
+
+/// A centered figure with optional fine print below. `src` is a path string, an `image(...)`, or
+/// any content, like a cetz canvas. A string resolves from this file, so give it from the project
+/// root, like "/figures/plot.svg"; extra named arguments such as `width` and `alt` go to `image`.
+/// For content, `width` and `height` scale it to fit, in place of `scale(85%, reflow: true, ..)`.
+/// To fill the rest of a slide, use `fig-fill`.
+#let fig(src, caption: none, ..args) = {
+  let width = args.named().at("width", default: auto)
+  let height = args.named().at("height", default: auto)
+  std.align(center, {
+    if type(src) == str { image(src, ..args) } else if width == auto and height == auto {
+      src
+    } else {
+      layout(size => scale(
+        _contain-factor(measure(src), _resolve(width, size.width), _resolve(height, size.height))
+          * 100%,
+        reflow: true,
+        src,
+      ))
+    }
+    if caption != none { block(above: 0.4em, fine(caption)) }
+  })
+}
 
 /// A grey panel of small text under a figure, saying what is plotted. `label` leads in bold;
 /// pass `none` to drop it.

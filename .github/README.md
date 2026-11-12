@@ -85,7 +85,8 @@ use Copier above. `just agent-skills` restores the submodules in either case.
   an agenda slide, and `callout(color:, title:, icon:)[..]`, where `icon: "!"` draws a round badge without an icon font.
   `ink(color)` darkens any color until text in it reads on white, which callout titles use.
 - Text and figures: `small[..]` for dense bullets, `fine[..]` for grey fine print, and `fig(path, caption:)` for a
-  centered figure with fine print below. `note[..]` puts a grey "what is plotted" panel under a figure, and
+  centered figure with fine print below. `width:` or `height:` on content, such as a cetz canvas, scales it to fit in
+  place of `scale(85%, reflow: true, ..)`. `note[..]` puts a grey "what is plotted" panel under a figure, and
   `compare((label, body), ..)` sets approaches against each other with the last one highlighted.
   `fig-fill(path, explain:)` makes a figure as large as the rest of its column or slide allows, with an optional `note`
   under it, so no height has to be tuned by hand. Give `fig` paths from the project root, like `"/figures/plot.svg"`.

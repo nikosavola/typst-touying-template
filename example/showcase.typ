@@ -129,7 +129,7 @@
 
 == Plots with cetz
 
-#align(center, cetz.canvas(length: 1cm, {
+#fig(width: 85%, cetz.canvas(length: 1cm, {
   import cetz.draw: *
   let (w, h) = (16, 5.5)
   let xs = range(0, 201).map(i => i / 200 * 4 * calc.pi)
@@ -151,7 +151,7 @@
 
 #align(center, text(
   size: 0.8em,
-)[Drawn with cetz, using `cycle-color(0)`, `(1)` and `(2)` like a matplotlib figure.])
+)[Drawn with cetz in `cycle-color(0)`, `(1)` and `(2)`, and scaled to 85% of the width by `fig(canvas, width: 85%)`.])
 
 == Plots from matplotlib
 
