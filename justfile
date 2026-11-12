@@ -85,7 +85,8 @@ readme-images: build
         out="example/images/${spec%%:*}.svg"
         pdftocairo -svg -f "${spec#*:}" -l "${spec#*:}" {{ BUILD_DIR }}/{{ DECK_NAME }}.pdf "$out"
         # cairo leaves a sliver at the page edge, which shows as a line on dark pages
-        sed -i 's|</defs>|</defs><rect width="100%" height="100%" fill="#fff"/>|' "$out"
+        # -i.bak works with both GNU and BSD sed
+        sed -i.bak 's|</defs>|</defs><rect width="100%" height="100%" fill="#fff"/>|' "$out" && rm "$out.bak"
     done
 
 # Remove build artifacts
