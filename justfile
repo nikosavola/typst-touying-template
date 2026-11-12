@@ -41,6 +41,12 @@ watch:
 preview: build
     typst compile --root {{ ROOT }} --font-path fonts {{ DECK }} {{ BUILD_DIR }}/preview-{0p}.png --format png --ppi 150
 
+# Fail if any slide's content spills onto an extra page
+[group('build')]
+check-overflow:
+    mkdir -p {{ BUILD_DIR }}
+    typst compile --root {{ ROOT }} --font-path fonts --input overflow=error {{ DECK }} {{ BUILD_DIR }}/{{ DECK_NAME }}.pdf
+
 # Validate the PDF against PDF/A-2b with veraPDF (needs Docker)
 [group('build')]
 check-pdf: build

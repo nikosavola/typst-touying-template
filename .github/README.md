@@ -27,18 +27,19 @@ Copier asks for a project name, title, optional subtitle, author, optional event
 Serif) text. You get a standalone repo with a starter `main.typ` to edit. Later, `uvx copier update` inside it pulls in
 template fixes without touching your slides.
 
-| Recipe              | What it does                                            |
-| ------------------- | ------------------------------------------------------- |
-| `just build`        | Compile the deck to a PDF in `build/`                   |
-| `just watch`        | Recompile on save                                       |
-| `just preview`      | Render every slide to `build/preview-*.png`             |
-| `just build-pptx`   | Optional PPTX export, one image per slide, via `uvx`    |
-| `just site`         | PDF plus an `index.html`, ready for GitHub Pages        |
-| `just plots`        | Rerun every `plots/*.py` matplotlib script with `uv`    |
-| `just check-pdf`    | Validate the PDF as PDF/A-2b with veraPDF (Docker)      |
-| `just format`       | Format Typst sources with typstyle                      |
-| `just pre-commit`   | Run all hooks with [prek](https://github.com/j178/prek) |
-| `just agent-skills` | Add the agent skills as git submodules                  |
+| Recipe                | What it does                                            |
+| --------------------- | ------------------------------------------------------- |
+| `just build`          | Compile the deck to a PDF in `build/`                   |
+| `just watch`          | Recompile on save                                       |
+| `just preview`        | Render every slide to `build/preview-*.png`             |
+| `just build-pptx`     | Optional PPTX export, one image per slide, via `uvx`    |
+| `just site`           | PDF plus an `index.html`, ready for GitHub Pages        |
+| `just plots`          | Rerun every `plots/*.py` matplotlib script with `uv`    |
+| `just check-overflow` | Fail if a slide's content spills onto an extra page     |
+| `just check-pdf`      | Validate the PDF as PDF/A-2b with veraPDF (Docker)      |
+| `just format`         | Format Typst sources with typstyle                      |
+| `just pre-commit`     | Run all hooks with [prek](https://github.com/j178/prek) |
+| `just agent-skills`   | Add the agent skills as git submodules                  |
 
 ### Publishing to GitHub Pages
 
@@ -84,10 +85,12 @@ use Copier above. `just agent-skills` restores the submodules in either case.
   `ink(color)` darkens any color until text in it reads on white, which callout titles use.
 - Text and figures: `small[..]` for dense bullets, `fine[..]` for grey fine print, and `fig(path, caption:)` for a
   centered figure with fine print below. `note[..]` puts a grey "what is plotted" panel under a figure, and
-  `compare((label, body), ..)` sets approaches against each other with the last one highlighted. Give `fig` paths from the project root, like `"/figures/plot.svg"`. `===`
-  headings and `#quote(block: true)` are styled too.
+  `compare((label, body), ..)` sets approaches against each other with the last one highlighted. Give `fig` paths from
+  the project root, like `"/figures/plot.svg"`. `===` headings and `#quote(block: true)` are styled too.
 - Theme options: `text-size` (20pt by default, and everything else scales with it), `font`, `mono-font`, `math-font`,
-  `footer`, `footer-right`, `header-right`, `progress-bar`, `bibliography`.
+  `footer`, `footer-right`, `header-right`, `progress-bar`, `bibliography`, and `overflow`: a slide too full for its
+  page continues on an extra page, which gets a red badge by default (`"mark"`), stops the build with `"error"`, or is
+  left alone with `"none"`.
 - Citations: pass `bibliography: bibliography(title: none, "refs.bib")` and cite with `@key`. Each citation becomes a
   numbered footnote on its slide; `#magic.bibliography(title: none)` can also list them all on one slide. `bibtex-tidy`
   keeps `.bib` files formatted.

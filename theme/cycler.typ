@@ -151,6 +151,23 @@
   ..args,
 )
 
+/// Marks the first page of a slide. A page without one holds content that spilled over from the
+/// slide before it, which Touying puts on an extra page instead of cutting it off.
+#let slide-start = [#metadata("cycler-slide") <cycler-slide>]
+
+// Pages that start no slide, i.e. overflow pages. Needs context.
+#let overflow-pages() = {
+  let starts = query(<cycler-slide>).map(m => m.location().page())
+  range(1, here().page() + 1).filter(p => p not in starts)
+}
+
+#let overflow-badge = place(top + center, dy: 1em, box(
+  fill: cycle.red,
+  inset: (x: 0.6em, y: 0.35em),
+  radius: 3pt,
+  text(size: 12pt, weight: "bold", fill: white)[Overflow: this continues the slide before],
+))
+
 #let slide(
   title: auto,
   align: auto,
@@ -207,6 +224,7 @@
     show: std.align.with(self.store.align)
     set text(fill: self.colors.neutral-darkest)
     show: setting
+    slide-start
     body
   }
   touying-slide(
@@ -229,6 +247,7 @@
   )
   let info = self.info + args.named()
   let body = {
+    slide-start
     set std.align(horizon)
     set text(fill: self.colors.neutral-darkest)
     if info.logo != none {
@@ -265,6 +284,7 @@
     config-page(fill: self.colors.neutral-lightest, margin: (x: 3em)),
   )
   let slide-body = {
+    slide-start
     set std.align(horizon)
     // Touying's own heading counter isn't stepped yet at this point, so count instead.
     context {
@@ -327,12 +347,17 @@
       }),
     ),
   )
-  touying-slide(self: self, config: config, std.align(bottom + left, block(
-    width: 100%,
-    inset: (x: 2em, y: 1.2em),
-    fill: gradient.linear(black.transparentize(100%), black.transparentize(40%), angle: 90deg),
-    text(fill: white, size: 1.3em, weight: "bold", body),
-  )))
+  touying-slide(
+    self: self,
+    config: config,
+    slide-start
+      + std.align(bottom + left, block(
+        width: 100%,
+        inset: (x: 2em, y: 1.2em),
+        fill: gradient.linear(black.transparentize(100%), black.transparentize(40%), angle: 90deg),
+        text(fill: white, size: 1.3em, weight: "bold", body),
+      )),
+  )
 })
 
 /// Full-bleed primary-colored slide for a single message. Bold text turns yellow.
@@ -345,7 +370,7 @@
     config-colors(primary: cycle.yellow),
   )
   set text(fill: white, size: 1.6em, weight: "bold")
-  touying-slide(self: self, config: config, std.align(align, body))
+  touying-slide(self: self, config: config, slide-start + std.align(align, body))
 })
 
 /// The cycler theme.
@@ -356,6 +381,9 @@
 /// - math-font (str, array): font for equations.
 /// - footer (content, function): left footer text. Defaults to the short title, else the title.
 /// - progress-bar (bool): draw a thin progress bar along the bottom edge.
+/// - overflow (str): what to do with a slide whose content spills onto an extra page. "mark" puts
+///   a red badge on the spilled page, "error" stops the build and names the pages, "none" does
+///   nothing. `--input overflow=error` overrides it, which `just check` uses.
 /// - bibliography (bibliography, none): e.g. `bibliography(title: none, "refs.bib")`. Citations then
 ///   show as numbered footnotes on their slide, and `magic.bibliography()` lists them all.
 #let cycler-theme(
@@ -372,10 +400,13 @@
   },
   footer-right: context utils.slide-counter.display() + " / " + utils.last-slide-number,
   progress-bar: true,
+  overflow: "mark",
   bibliography: none,
   ..args,
   body,
 ) = {
+  let overflow = sys.inputs.at("overflow", default: overflow)
+  assert(overflow in ("mark", "error", "none"), message: "overflow must be mark, error or none")
   set text(size: text-size, font: font)
   set strong(delta: 200)
   // Drawn, so the marker never depends on a glyph the font may lack.
@@ -429,6 +460,15 @@
       header-ascent: 0%,
       footer-descent: 0%,
       margin: (top: 3.6em, bottom: 2.2em, x: 2em),
+      // Checked per page, since content after the body would add a page of its own.
+      foreground: if overflow != "none" {
+        context if here().page() in overflow-pages() {
+          if overflow == "error" {
+            panic("the slide before page " + str(here().page()) + " overflows onto it")
+          }
+          overflow-badge
+        }
+      },
     ),
     config-common(
       slide-fn: slide,
