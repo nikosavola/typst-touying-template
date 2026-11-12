@@ -224,6 +224,21 @@
   )))
 })
 
+/// `body` at the largest of a few text sizes, 100% down to 60%, that wraps to at most `lines`
+/// lines at the available width.
+#let _shrink-to-lines(body, lines) = layout(size => {
+  let scales = (100%, 92%, 85%, 78%, 72%, 66%, 60%)
+  let fits(s) = {
+    let limit = measure(text(size: s * 1em, (([Ag],) * lines).join(linebreak()))).height
+    (
+      measure(block(width: size.width, text(size: s * 1em, body))).height
+        <= limit + 0.2 * s * 1em.to-absolute()
+    )
+  }
+  let pick = scales.find(fits)
+  text(size: (if pick == none { scales.last() } else { pick }) * 1em, body)
+})
+
 #let slide(
   title: auto,
   align: auto,
@@ -314,7 +329,8 @@
     if info.logo != none {
       place(top + right, info.logo)
     }
-    block(width: 85%, text(size: 2em, weight: "bold", info.title))
+    // Shrunk past three lines, so a full-sentence title still leaves room for the rest.
+    block(width: 85%, text(size: 2em, weight: "bold", _shrink-to-lines(info.title, 3)))
     if info.subtitle != none {
       block(above: 0.6em, text(size: 1.1em, fill: self.colors.neutral-dark, info.subtitle))
     }
