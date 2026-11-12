@@ -15,6 +15,9 @@ SITE_TITLE := env("SITE_TITLE", DECK_NAME)
 # Typst only reads files under the root. Set ROOT=.. or higher when the deck sits inside a bigger
 # project and shows figures or data from it, then give those paths from that root ("/paper/fig.svg").
 ROOT := env("ROOT", ".")
+# `just publish` copies the checked PDF here, e.g. a synced Drive or Dropbox folder, under PUBLISH_NAME.
+PUBLISH_DIR := env("PUBLISH_DIR", "")
+PUBLISH_NAME := env("PUBLISH_NAME", DECK_NAME + ".pdf")
 FMT_PATHS := "theme " + DECK + if path_exists("example") == "true" { " example" } else { "" }
 
 # Keep in sync with the typstyle hook's args in .pre-commit-config.yaml.
@@ -51,6 +54,16 @@ check-overflow:
 [group('build')]
 check-pdf: build
     docker run --rm -v "$PWD/{{ BUILD_DIR }}":/data {{ VERAPDF }} --flavour 2b --format text /data/{{ DECK_NAME }}.pdf
+
+# Check overflow and PDF/A, then copy the PDF to PUBLISH_DIR, replacing the copy there
+[group('build')]
+publish: _publish-dir check-overflow check-pdf
+    mkdir -p "{{ PUBLISH_DIR }}"
+    cp {{ BUILD_DIR }}/{{ DECK_NAME }}.pdf "{{ PUBLISH_DIR }}/{{ PUBLISH_NAME }}"
+
+[private]
+_publish-dir:
+    @test -n "{{ PUBLISH_DIR }}" || { echo "Set PUBLISH_DIR to the folder to copy the PDF to"; exit 1; }
 
 # Optional PPTX export, one full-slide image per slide (not editable text)
 [group('build')]

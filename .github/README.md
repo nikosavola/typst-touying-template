@@ -37,6 +37,7 @@ template fixes without touching your slides.
 | `just plots`          | Rerun every `plots/*.py` matplotlib script with `uv`    |
 | `just check-overflow` | Fail if a slide's content spills onto an extra page     |
 | `just check-pdf`      | Validate the PDF as PDF/A-2b with veraPDF (Docker)      |
+| `just publish`        | Run both checks, then copy the PDF to `PUBLISH_DIR`     |
 | `just format`         | Format Typst sources with typstyle                      |
 | `just pre-commit`     | Run all hooks with [prek](https://github.com/j178/prek) |
 | `just agent-skills`   | Add the agent skills as git submodules                  |

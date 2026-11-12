@@ -17,6 +17,7 @@ just build-pptx   # optional PPTX export (one image per slide)
 just plots        # rerun plots/*.py matplotlib scripts (theme/cycler.mplstyle) with uv
 just check-overflow # fail if a slide spills onto an extra page
 just check-pdf    # validate the PDF as PDF/A-2b with veraPDF (needs Docker)
+just publish      # both checks, then copy the PDF to $PUBLISH_DIR (e.g. a synced Drive folder)
 just pre-commit   # run all hooks
 just agent-skills # add Typst/Touying skills for coding agents under .agents/skills
 ```
