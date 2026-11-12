@@ -66,6 +66,20 @@
   text(size: 0.68em, if label == none { body } else [*#label* #body]),
 )
 
+/// A small color mark that names a plot element in running text, like `#key(cycle.red)[$Q = 30$]`
+/// in a `note`. `shape` is "line" for a curve, "dot" for markers or "band" for a shaded region.
+#let key(color, shape: "line", body) = {
+  assert(shape in ("line", "dot", "band"), message: "key shape must be line, dot or band")
+  let mark = if shape == "line" {
+    box(width: 1.1em, height: 0.7em, align(horizon, line(length: 100%, stroke: 2.5pt + color)))
+  } else if shape == "dot" {
+    box(width: 0.7em, height: 0.7em, align(center + horizon, circle(radius: 0.3em, fill: color)))
+  } else {
+    box(width: 0.9em, height: 0.7em, fill: color.transparentize(45%), radius: 1.5pt)
+  }
+  box[#mark#h(0.3em)#body]
+}
+
 /// A figure as large as the space left below it allows, so no `height` has to be tuned by hand.
 /// It fills the rest of its column or slide, keeps its aspect ratio, and stays centered. `src` is a
 /// path, given from the project root like in `fig`. `explain` goes in a `note` panel under it and

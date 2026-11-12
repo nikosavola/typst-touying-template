@@ -175,7 +175,7 @@
 #slide(composer: (1.6fr, 1fr))[
   #fig-fill(
     "/example/plots/resonance.svg",
-    explain: [`fig-fill(path, explain: ...)` sizes the plot to the room left above a `note`, which says what the axes and markers are.],
+    explain: [Transmission of a resonator against frequency, for #key(cycle.blue)[$Q = 10$], #key(cycle.red)[$Q = 30$] and #key(cycle.green)[$Q = 100$]. `fig-fill` sizes the plot to the room left above this `note`, and `key` marks each color.],
   )
 ][
   #compare(

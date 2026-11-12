@@ -88,9 +88,9 @@ use Copier above. `just agent-skills` restores the submodules in either case.
   `compare((label, body), ..)` sets approaches against each other with the last one highlighted.
   `fig-fill(path, explain:)` makes a figure as large as the rest of its column or slide allows, with an optional `note`
   under it, so no height has to be tuned by hand. Give `fig` paths from the project root, like `"/figures/plot.svg"`.
-  `values(json("/data/results.json"))` returns a function that shows a number from a data file by key, inside `$..$`,
-  so slides and a paper built from the same file always agree.
-  `===` headings and `#quote(block: true)` are styled too.
+  `values(json("/data/results.json"))` returns a function that shows a number from a data file by key, inside `$..$`, so
+  slides and a paper built from the same file always agree. `key(color, shape:)[..]` puts a small line, dot or band
+  before a label, so a `note` can name each color of a plot. `===` headings and `#quote(block: true)` are styled too.
 - Theme options: `text-size` (20pt by default, and everything else scales with it), `font`, `mono-font`, `math-font`,
   `footer`, `footer-right`, `header-right`, `progress-bar`, `bibliography`, and `overflow`: a slide too full for its
   page continues on an extra page, which gets a red badge by default (`"mark"`), stops the build with `"error"`, or is
