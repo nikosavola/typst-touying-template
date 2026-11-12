@@ -159,12 +159,13 @@
   #fig(
     "/example/plots/resonance.svg",
     width: 100%,
+    alt: "Resonance curves of |S21| against frequency for Q of 10, 30 and 100",
     caption: [`fig(path, caption: ...)` centers it.],
   )
 ][
   #set text(size: 0.85em)
   - `theme/cycler.mplstyle` matches the slides: colors, Roboto, Fira Math
-  - Save as SVG, then `#fig("/plots/resonance.svg")`
+  - Save as SVG, then `#fig("/plots/resonance.svg", alt: "...")`
   - `just plots` reruns every `plots/*.py` with `uv`
 ]
 
@@ -318,7 +319,7 @@ $
 == Dense text fits the space it is given
 
 #slide(align: top, composer: (1fr, 1fr))[
-  #fig-fill("/example/plots/resonance.svg")
+  #fig-fill("/example/plots/resonance.svg", alt: "Resonance curves for Q of 10, 30 and 100")
 ][
   #fit[
     - `fit[...]` shrinks the text inside it just enough to fit the height the slide has left,

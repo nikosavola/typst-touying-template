@@ -87,12 +87,15 @@ use Copier above. `just agent-skills` restores the submodules in either case.
 - Text and figures: `small[..]` for dense bullets, `fine[..]` for grey fine print, and `fig(path, caption:)` for a
   centered figure with fine print below. `width:` or `height:` on content, such as a cetz canvas, scales it to fit in
   place of `scale(85%, reflow: true, ..)`. `note[..]` puts a grey "what is plotted" panel under a figure, and
-  `compare((label, body), ..)` sets approaches against each other with the last one highlighted.
-  `fig-fill(path, explain:)` makes a figure as large as the rest of its column or slide allows, with an optional `note`
-  under it, so no height has to be tuned by hand. Give `fig` paths from the project root, like `"/figures/plot.svg"`.
-  `values(json("/data/results.json"))` returns a function that shows a number from a data file by key, inside `$..$`, so
-  slides and a paper built from the same file always agree. `key(color, shape:)[..]` puts a small line, dot or band
-  before a label, so a `note` can name each color of a plot. `===` headings and `#quote(block: true)` are styled too.
+  `label: [How to read this.]` changes its lead. `compare((label, body), ..)` sets approaches against each other with
+  the last one highlighted. `fig-fill(path, explain:)` makes a figure as large as the rest of its column or slide
+  allows, with an optional `note` under it, so no height has to be tuned by hand. Give `fig` and `fig-fill` paths from
+  the project root, like `"/figures/plot.svg"`, and `alt: "..."` for screen readers. For a deck with its own folder of
+  figures, wrap it once: `#let fig(name, ..args) = cycler.fig("/figures/" + name, ..args)` after
+  `#import "theme/cycler.typ"`. `values(json("/data/results.json"))` returns a function that shows a number from a data
+  file by key, inside `$..$`, so slides and a paper built from the same file always agree. `key(color, shape:)[..]` puts
+  a small line, dot or band before a label, so a `note` can name each color of a plot. `===` headings and
+  `#quote(block: true)` are styled too.
 - Dense slides: `fit[..]` shrinks the text inside it just enough to fit the height the slide has left, so there's no
   need to hand-tune `text(size: 0.6em)` per slide. It never grows text and stops at `min:` (50% by default). Still too
   full at that size, it gets a red badge, and `just check-overflow` fails.
