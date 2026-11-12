@@ -212,6 +212,18 @@
   text(size: 12pt, weight: "bold", fill: white)[Overflow: this continues the slide before],
 ))
 
+/// `body` at the largest of a few text sizes, 100% down to 60%, that keeps it within `height`
+/// at the available width, bottom-aligned in a box of that height.
+#let _shrink-to-height(body, height) = layout(size => {
+  let scales = (100%, 92%, 85%, 78%, 72%, 66%, 60%)
+  let fits(s) = measure(block(width: size.width, text(size: s * 1em, body))).height <= height
+  let pick = scales.find(fits)
+  box(height: height, std.align(bottom, text(
+    size: (if pick == none { scales.last() } else { pick }) * 1em,
+    body,
+  )))
+})
+
 #let slide(
   title: auto,
   align: auto,
@@ -226,20 +238,25 @@
   }
   let header(self) = {
     set std.align(top)
-    pad(x: 2em, top: 1.1em, {
+    pad(x: 2em, top: 0.25em, {
       set text(fill: self.colors.neutral-darkest, weight: "bold", size: 1.25em)
-      components.left-and-right(
-        if title != auto {
-          utils.fit-to-width(grow: false, 100%, title)
-        } else {
-          utils.call-or-display(self, self.store.header)
-        },
-        text(
+      set par(leading: 0.4em)
+      // A one-line title sits where it always has. A long one shrinks and wraps upwards into the
+      // top padding instead of running into the slide body.
+      let lift = 0.68em
+      grid(
+        columns: (1fr, auto),
+        column-gutter: 1em,
+        context _shrink-to-height(
+          if title != auto { title } else { utils.call-or-display(self, self.store.header) },
+          lift.to-absolute() + measure[Ag].height,
+        ),
+        pad(top: lift, text(
           size: 0.55em,
           weight: "regular",
           fill: self.colors.neutral,
           utils.call-or-display(self, self.store.header-right),
-        ),
+        )),
       )
       v(-0.5em)
       box(width: 2.5em, height: 3pt, fill: self.colors.primary)

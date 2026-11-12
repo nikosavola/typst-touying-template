@@ -170,7 +170,7 @@
 
 #speaker-note[The SVG keeps its text as real, selectable text and has a transparent background, so it fits any slide.]
 
-== Explaining a figure
+== Long slide titles shrink and wrap to fit the header, so a research deck can state its result as the title
 
 #slide(composer: (1.6fr, 1fr))[
   #fig-fill(

@@ -92,6 +92,8 @@ use Copier above. `just agent-skills` restores the submodules in either case.
   `values(json("/data/results.json"))` returns a function that shows a number from a data file by key, inside `$..$`, so
   slides and a paper built from the same file always agree. `key(color, shape:)[..]` puts a small line, dot or band
   before a label, so a `note` can name each color of a plot. `===` headings and `#quote(block: true)` are styled too.
+- Slide titles: a title too long for one line shrinks and wraps to two lines inside the header, so a full-sentence
+  result can be the title without running into the slide.
 - Theme options: `text-size` (20pt by default, and everything else scales with it), `font`, `mono-font`, `math-font`,
   `footer`, `footer-right`, `header-right`, `progress-bar`, `bibliography`, and `overflow`: a slide too full for its
   page continues on an extra page, which gets a red badge by default (`"mark"`), stops the build with `"error"`, or is
