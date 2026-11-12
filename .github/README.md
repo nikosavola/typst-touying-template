@@ -98,6 +98,7 @@ use Copier above. `just agent-skills` restores the submodules in either case.
   full at that size, it gets a red badge, and `just check-overflow` fails.
 - `stat(value, label, color:)` draws a big number with a label under it. Touying's `cols(..)` sets blocks like these, or
   any others, side by side in equal columns, in place of a hand-written `grid(columns: (1fr, 1fr), ..)`.
+- `timeline((title, detail), ..)` draws a plan or a history as dots on a line, with a third entry to set a step's color.
 - Slide titles: a title too long for one line shrinks and wraps to two lines inside the header, so a full-sentence
   result can be the title without running into the slide. On the title slide, a title past three lines shrinks to fit
   three, so there's no need to wrap it in `text(size: ..)`.

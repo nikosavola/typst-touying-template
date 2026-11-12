@@ -348,6 +348,21 @@ $
 - `stat(value, label, color:)` for the one result a slide is about
 - `cols(..)` from Touying sets any blocks side by side in equal columns, or pass `columns: (2fr, 1fr)`
 
+== A plan
+
+#timeline(
+  ([Outline], [done], cycle.grey),
+  ([Draft the slides], [this week]),
+  ([Rehearse], [twice, with a timer]),
+  ([Give the talk], [at the society]),
+)
+
+#v(1.5em)
+
+- `timeline((title, detail), ..)` draws the steps on a line in the cycle colors
+- A third entry sets the color, like `cycle.grey` for steps that are done
+- Plain Typst, so it needs no cetz canvas and no `scale` to fit
+
 = Wrap-up
 
 == Citations

@@ -200,6 +200,37 @@
   text(size: 0.75em, fill: rgb("#4d4d4d"), label)
 })
 
+/// Steps along a line, each a dot with a title above and a detail below, for a plan or a history.
+/// Pass `(title, detail)` pairs, or `(title, detail, color)` to override the cycle color, e.g.
+/// `cycle.grey` for steps already done.
+#let timeline(..steps) = {
+  let steps = steps.pos()
+  let n = steps.len()
+  let color(i) = steps.at(i).at(2, default: cycle-color(i))
+  let track = cycle.grey.lighten(50%)
+  grid(
+    columns: (1fr,) * n,
+    row-gutter: 0.45em,
+    align: center + bottom,
+    inset: (x: 0.4em),
+    ..range(n).map(i => text(size: 0.8em, weight: "bold", fill: ink(color(i)), steps.at(i).at(0))),
+    ..range(n).map(i => grid.cell(inset: 0pt, box(width: 100%, height: 0.7em, {
+      // The line runs from the first dot to the last, under the dots.
+      place(horizon, line(
+        start: (if i == 0 { 50% } else { 0% }, 0pt),
+        end: (if i == n - 1 { 50% } else { 100% }, 0pt),
+        stroke: 2pt + track,
+      ))
+      std.align(center + horizon, circle(radius: 0.35em, fill: color(i), stroke: 2pt + white))
+    }))),
+    ..range(n).map(i => grid.cell(align: center + top, text(
+      size: 0.7em,
+      fill: rgb("#4d4d4d"),
+      steps.at(i).at(1),
+    ))),
+  )
+}
+
 /// A tinted box with a colored left rule, for asides and warnings. `icon` is any content, or a
 /// short string like "i" or "!" that gets drawn as a round badge, so no icon font is needed.
 #let callout(color: cycle.blue, title: none, icon: none, body) = block(
