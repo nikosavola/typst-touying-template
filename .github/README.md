@@ -84,8 +84,8 @@ use Copier above. `just agent-skills` restores the submodules in either case.
 - Text and figures: `small[..]` for dense bullets, `fine[..]` for grey fine print, and `fig(path, caption:)` for a
   centered figure with fine print below. Give `fig` paths from the project root, like `"/figures/plot.svg"`. `===`
   headings and `#quote(block: true)` are styled too.
-- Theme options: `font`, `mono-font`, `math-font`, `footer`, `footer-right`, `header-right`, `progress-bar`,
-  `bibliography`.
+- Theme options: `text-size` (20pt by default, and everything else scales with it), `font`, `mono-font`, `math-font`,
+  `footer`, `footer-right`, `header-right`, `progress-bar`, `bibliography`.
 - Citations: pass `bibliography: bibliography(title: none, "refs.bib")` and cite with `@key`. Each citation becomes a
   numbered footnote on its slide; `#magic.bibliography(title: none)` can also list them all on one slide. `bibtex-tidy`
   keeps `.bib` files formatted.

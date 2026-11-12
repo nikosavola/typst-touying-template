@@ -302,6 +302,7 @@
 
 /// The cycler theme.
 ///
+/// - text-size (length): base text size. Everything else is in em, so it scales with it.
 /// - font (str, array): body and heading font. Try "Libertinus Serif" for a serif look.
 /// - mono-font (str, array): font for code.
 /// - math-font (str, array): font for equations.
@@ -312,6 +313,7 @@
 #let cycler-theme(
   aspect-ratio: "16-9",
   align: horizon,
+  text-size: 20pt,
   font: "Roboto",
   mono-font: "Roboto Mono",
   math-font: "Fira Math",
@@ -326,7 +328,7 @@
   ..args,
   body,
 ) = {
-  set text(size: 20pt, font: font)
+  set text(size: text-size, font: font)
   set strong(delta: 200)
   // Drawn, so the marker never depends on a glyph the font may lack.
   set list(marker: (box(width: 0.3em, height: 0.3em, baseline: -0.15em, fill: cycle.blue), [–]))
@@ -344,7 +346,7 @@
   // Explicit typography, since the fence's own context carries the mono font.
   show raw.where(lang: "mermaid", block: true): merman.show-mermaid-blocks(
     profile: mermaid-profile,
-    typography: (font: font, size: 18pt),
+    typography: (font: font, size: 0.9 * text-size),
   )
   show link: set text(fill: cycle.blue)
   // Level 1 and 2 headings become sections and slide titles, so level 3 is the in-slide heading.
