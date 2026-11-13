@@ -4,7 +4,8 @@
 // Title and author come from config-info below; this fills in the rest of the PDF metadata.
 #set document(
   description: {% if deck_subtitle %}[{{ deck_subtitle }}]{% else %}none{% endif %},
-  keywords: ({% for k in keywords.split(",") if k.strip() %}"{{ k.strip() }}", {% endfor %}),
+  {%- set kws = keywords.split(",") | map("trim") | select | list %}
+  keywords: ({% for k in kws %}"{{ k }}"{% if not loop.last %}, {% endif %}{% endfor %}{% if kws | length == 1 %},{% endif %}),
 )
 
 #show: cycler-theme.with(
